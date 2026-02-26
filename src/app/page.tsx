@@ -94,7 +94,7 @@ export default function Home() {
                 <CharacterReveal
                   id="about"
                   text={REVEAL_1.text}
-                  bottomNote="Beyond the noise, behind the screen, there is a team obsessed with results."
+                  bottomNote="Small team. Big standards. Every project gets the founders in the room."
                 />
               </div>
 

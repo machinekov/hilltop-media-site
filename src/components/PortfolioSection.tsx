@@ -12,7 +12,7 @@ export default function PortfolioSection() {
   const cardsRef = useRef<HTMLDivElement>(null);
   const [visibleIndex, setVisibleIndex] = useState(0);
 
-  const words = splitIntoWords('Brands built, revenue driven.');
+  const words = splitIntoWords('Work that works.');
   const totalItems = PORTFOLIO.length;
 
   useEffect(() => {

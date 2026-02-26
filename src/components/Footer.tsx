@@ -9,7 +9,7 @@ export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
 
-  const ctaWords = splitIntoWords('Let us build something worth remembering.');
+  const ctaWords = splitIntoWords("Let's build something that actually works.");
 
   useEffect(() => {
     if (!footerRef.current) return;

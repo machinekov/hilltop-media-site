@@ -29,13 +29,13 @@ export const HERO = {
 } as const;
 
 export const REVEAL_1 = {
-  text: 'Every brand we build, every campaign we run, every pixel we push is measured by one thing: did it make you money.',
+  text: 'Every brand we build, every campaign we launch, every asset we deliver answers one question: did it move the needle.',
 } as const;
 
 export const REVEAL_2 = {
   location: 'Vancouver, BC',
-  text: "We don't just make things look good. We make creative that drives revenue. Every brand, website, and campaign we produce starts with your business goals and works backward to the creative.",
-  body: "Most agencies deliver assets. We deliver outcomes. That is why our clients stay. From logo to launch, from listing to ad spend, we are the only partner you need. Branding, web, video, packaging, paid ads, all under one roof.",
+  text: "Good looking work is the bare minimum. We build creative that earns its keep. Every brand, website, and campaign starts with your business goals and works backward to the design.",
+  body: "Most agencies hand over files and call it done. We deliver results you can measure. From brand identity to ad spend, product launch to performance creative, one team handles it all. No handoffs. No excuses.",
   images: [
     '/portfolio/prodigy-cover.jpg',
     '/portfolio/nlps-cover.jpg',
@@ -44,7 +44,7 @@ export const REVEAL_2 = {
 } as const;
 
 export const REVEAL_3 = {
-  text: 'Branding. Design. Advertising. One agency, zero fluff.',
+  text: 'Strategy first. Design second. Revenue always.',
 } as const;
 
 export const SERVICES_FOUNDATION_ITEMS = [
@@ -81,12 +81,12 @@ export const SERVICES_GROWTH_ITEMS = [
 ] as const;
 
 export const AMAZON_FBA_ITEMS = [
-  { name: 'Branding & Logos', description: 'Your brand becomes instantly recognizable and builds trust as your business grows.' },
-  { name: 'Packaging & Inserts', description: 'Eye grabbing packaging visuals and inserts that enrich the unboxing journey.' },
-  { name: 'Listing Images', description: 'Visually striking images that impress and educate the customer to make a purchase.' },
-  { name: 'Listing Copywriting', description: 'Careful keyword planning and beautiful copy that tells the story of your product.' },
-  { name: 'Photos & Videos', description: 'Product photography and video that brings the best out of your products.' },
-  { name: 'A+ & EBC Content', description: 'Extra imagery and text modules that take your listing to the next level.' },
+  { name: 'Branding & Logos', description: 'A mark that builds recognition from day one and earns trust as you scale.' },
+  { name: 'Packaging & Inserts', description: 'Packaging that stops the scroll before purchase and elevates the unboxing after.' },
+  { name: 'Listing Images', description: 'Hero images and infographics engineered to convert browsers into buyers.' },
+  { name: 'Listing Copywriting', description: 'Keyword driven copy that ranks in search and tells a story worth reading.' },
+  { name: 'Photos & Videos', description: 'Studio quality photography and video that make your product impossible to ignore.' },
+  { name: 'A+ & EBC Content', description: 'Premium brand content modules that boost conversion and build credibility below the fold.' },
 ] as const;
 
 export const AMAZON_FBA_PRICING = [
@@ -101,7 +101,7 @@ export const SERVICES = [
     title: 'Foundation',
     subtitle: 'Brand Strategy & Consultation',
     description:
-      'Some may call us a full service creative agency, some may call us designers, but all our clients call us partners. Whether your company is launching a new logo, campaign, or website, as long as the outcome is something you can see, hear or feel, we can help.',
+      'We start where most agencies skip: the strategy. Before a single pixel gets placed, we dig into your market, your customer, and your competition. The creative that follows is built on insight, not guesswork.',
     link: 'Learn more',
     image: '/portfolio/prodigy-cover.jpg',
     items: SERVICES_FOUNDATION_ITEMS,
@@ -111,7 +111,7 @@ export const SERVICES = [
     title: 'Pillars',
     subtitle: 'Design & Development',
     description:
-      'Logos, websites, packaging, brand guidelines. Everything your brand needs to look and feel premium.',
+      'Identity systems that hold up everywhere. From your logo to your landing page to the box it ships in, every touchpoint looks and feels like it belongs to the same brand.',
     link: 'Learn more',
     image: '/portfolio/clipjuice-cover.jpg',
     items: SERVICES_PILLARS_ITEMS,
@@ -121,7 +121,7 @@ export const SERVICES = [
     title: 'Growth',
     subtitle: 'Advertising & Performance',
     description:
-      'Paid ads, social content, video, and campaigns designed to convert. We manage the spend, you count the revenue.',
+      'Campaigns built to perform, not just impress. We create the ads, manage the spend, and optimize until the numbers work. You see the revenue.',
     link: 'Learn more',
     image: '/portfolio/ona-cover.jpg',
     items: SERVICES_GROWTH_ITEMS,
@@ -133,55 +133,55 @@ export const PORTFOLIO = [
     title: 'Prodigy Intelligence',
     category: 'Brand Identity',
     image: '/portfolio/prodigy-cover.jpg',
-    description: 'A comprehensive brand guidelines system for Prodigy Intelligence. Ultra clean, corporate tech minimalism with precise typography and futuristic spacing.',
+    description: 'Full brand guidelines system for an AI intelligence firm. Corporate tech minimalism with surgical precision in every typographic and spatial detail.',
     behanceUrl: 'https://www.behance.net/gallery/242670675/Prodigy',
   },
   {
     title: 'VUE Glazing',
     category: 'Rebrand',
     image: '/portfolio/nlps-cover.jpg',
-    description: 'Siber Special Projects, a luxury glazing firm, approached us seeking a comprehensive rebranding strategy. Together we created VUE, capturing excellence in architectural engineering, aesthetic prowess, and precision.',
+    description: 'A luxury architectural glazing firm needed a name and identity that matched the caliber of their work. VUE was born: engineered elegance, captured in a brand.',
     behanceUrl: 'https://www.behance.net/gallery/242631959/NLPS',
   },
   {
     title: 'Clipjuice',
     category: 'Branding',
     image: '/portfolio/clipjuice-cover.jpg',
-    description: 'Brand identity and creative direction for Clipjuice, from initial sketches to final mark. A process driven approach that uncovered the brand essence through dozens of explorations.',
+    description: 'Brand identity and creative direction from first sketch to final mark. Dozens of explorations distilled into one system that captures the energy of short form content.',
     behanceUrl: 'https://www.behance.net/gallery/242632833/Clipjuice',
   },
   {
     title: 'Molibu',
     category: 'Brand Identity + Web',
     image: '/portfolio/molibu-cover.jpg',
-    description: 'Premium brand identity and website for Molibu, a luxury real estate developer and builder. Modern architectural aesthetics meet clean digital experiences.',
+    description: 'Brand and website for a Vancouver development and construction firm. Architectural precision translated into a digital experience as considered as the buildings themselves.',
     behanceUrl: 'https://www.behance.net/gallery/242632479/Molibu',
   },
   {
     title: 'Ona',
     category: 'Visual Identity',
     image: '/portfolio/ona-cover.jpg',
-    description: 'Visual identity system for Ona. Clean, commercial product branding with a fresh, approachable aesthetic that stands out on shelf and screen.',
+    description: 'Complete visual identity for an ecommerce brand selling direct to consumer. Clean, commercial, and built to stand out on a shelf and convert on a screen.',
     behanceUrl: 'https://www.behance.net/gallery/242630927/Ona',
   },
   {
     title: 'Fuzzo',
     category: 'Visual Identity',
     image: '/portfolio/fuzzo-cover.jpg',
-    description: 'Playful, character driven brand identity for Fuzzo. Custom typography, a memorable mascot, and a punchy color palette that brings instant personality.',
+    description: 'Character driven brand identity with custom typography, a mascot that actually works, and a color palette with enough personality to carry an entire product line.',
     behanceUrl: 'https://www.behance.net/gallery/242629965/Fuzzo',
   },
   {
     title: 'Clipjuice Highlight',
     category: 'Social Content',
     image: '/portfolio/clipjuice-highlight-cover.jpg',
-    description: 'Social media content portfolio showcase for Clipjuice. Dynamic phone mockups displaying short form video content across TikTok and Instagram.',
+    description: 'Performance content designed for TikTok and Instagram. Scroll stopping visuals built around short form video formats that actually drive engagement.',
     behanceUrl: 'https://www.behance.net/gallery/242670713/Clipjuice-Highlight',
   },
 ] as const;
 
 export const FOOTER = {
-  newsletter: 'Get insights that actually make you money',
+  newsletter: 'Insights that move the needle. No fluff.',
   bookingCta: 'Book a free consultation',
   bookingUrl: 'https://calendly.com/thehilltopmedia/15min',
   email: 'info@thehilltopmedia.com',

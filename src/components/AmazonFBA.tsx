@@ -48,7 +48,7 @@ export default function AmazonFBA() {
             Amazon FBA Creative
           </h3>
           <p className="mx-auto max-w-md text-base text-[#888888] leading-relaxed">
-            360 degree Amazon FBA partner agency. Brand creation, graphic design, and listing optimization for hundreds of businesses.
+            From brand creation to listing optimization, we handle every visual and word that sells your product. Hundreds of launches and counting.
           </p>
         </div>
 
