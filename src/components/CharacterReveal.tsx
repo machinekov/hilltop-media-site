@@ -70,29 +70,27 @@ export default function CharacterReveal({
 
     if (cardsRef.current) {
       const cards = cardsRef.current.querySelectorAll('.reveal-card');
+      // Iron Hill style: each card rises up ONE AT A TIME with heavy stagger
       cards.forEach((card, i) => {
-        const fromLeft = i % 2 === 0;
         tl.fromTo(
           card,
           {
-            x: fromLeft ? -400 : 400,
-            rotateY: fromLeft ? 25 : -25,
-            z: -200,
+            y: 200,
+            rotation: -6 + i * 5,
             opacity: 0,
-            scale: 0.7,
-            filter: 'blur(4px)',
+            scale: 0.85,
+            filter: 'blur(3px)',
           },
           {
-            x: 0,
-            rotateY: 0,
-            z: 0,
+            y: 0,
+            rotation: -4 + i * 4,
             opacity: 1,
             scale: 1,
             filter: 'blur(0px)',
-            duration: 4,
+            duration: 5,
             ease: 'power3.out',
           },
-          revealEnd * 0.5 + i * 1.5
+          revealEnd * 0.4 + i * 3  // heavy stagger — each card waits for the previous
         );
       });
     }
@@ -151,24 +149,42 @@ export default function CharacterReveal({
         {images && images.length > 0 && (
           <div
             ref={cardsRef}
-            className="mt-14 flex flex-col gap-5 md:flex-row md:gap-6"
-            style={{ perspective: '1200px' }}
+            className="mt-14 relative w-full max-w-4xl"
+            style={{ perspective: '1200px', height: '380px' }}
           >
-            {images.map((img, i) => (
-              <div
-                key={i}
-                className="reveal-card relative h-64 w-full overflow-hidden rounded-lg md:h-80 md:w-72"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <Image
-                  src={img}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 300px"
-                />
-              </div>
-            ))}
+            {images.map((img, i) => {
+              // Scattered organic positions (like Iron Hill's film slides)
+              const positions = [
+                { left: '2%', top: '10%', width: 240, height: 300, rotate: -4 },
+                { left: '35%', top: '0%', width: 260, height: 340, rotate: 2 },
+                { left: '62%', top: '20%', width: 220, height: 280, rotate: -2 },
+              ];
+              const pos = positions[i] || positions[0];
+
+              return (
+                <div
+                  key={i}
+                  className="reveal-card absolute overflow-hidden rounded-lg shadow-2xl"
+                  style={{
+                    left: pos.left,
+                    top: pos.top,
+                    width: `${pos.width}px`,
+                    height: `${pos.height}px`,
+                    transformStyle: 'preserve-3d',
+                    transform: `rotate(${pos.rotate}deg)`,
+                    border: '1px solid rgba(255,255,255,0.06)',
+                  }}
+                >
+                  <Image
+                    src={img}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="300px"
+                  />
+                </div>
+              );
+            })}
           </div>
         )}
 
