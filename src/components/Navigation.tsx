@@ -10,7 +10,7 @@ export default function Navigation() {
   return (
     <>
       {/* Top bar: logo left, nav links center (desktop), hamburger right */}
-      <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 py-5 md:px-10 md:py-6">
+      <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 py-5 md:px-12 md:py-6">
         {/* Logo */}
         <a href="#" className="block">
           {/* eslint-disable-next-line @next/next/no-img-element */}

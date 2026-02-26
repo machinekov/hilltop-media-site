@@ -34,8 +34,8 @@ export default function CharacterReveal({
 
     const wordEls = wordsContainerRef.current.querySelectorAll('.reveal-word');
 
-    // Muted but visible inactive state
-    gsap.set(wordEls, { opacity: 0.2, color: '#444444' });
+    // Muted but readable inactive state (Iron Hill uses visible medium-gray)
+    gsap.set(wordEls, { opacity: 0.3, color: '#555555' });
 
     const wordCount = wordEls.length;
     // Tighter scroll: short text scrolls fast, long text doesn't overstay

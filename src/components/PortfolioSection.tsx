@@ -18,7 +18,7 @@ export default function PortfolioSection() {
 
     // 1. Word-by-word heading reveal (Iron Hill style)
     const wordEls = headingRef.current.querySelectorAll('.portfolio-word');
-    gsap.set(wordEls, { opacity: 0.15, color: '#555555' });
+    gsap.set(wordEls, { opacity: 0.3, color: '#555555' });
 
     const headingTl = gsap.timeline({
       scrollTrigger: {
@@ -133,7 +133,7 @@ export default function PortfolioSection() {
       {/* Portfolio cards with 3D fly-in animations */}
       <div
         ref={cardsRef}
-        className="mx-auto flex max-w-7xl flex-col gap-16"
+        className="mx-auto flex max-w-6xl flex-col items-center gap-10"
         style={{ perspective: '1200px' }}
       >
         {PORTFOLIO.map((item, i) => (
