@@ -34,11 +34,10 @@ export default function CharacterReveal({
 
     const wordEls = wordsContainerRef.current.querySelectorAll('.reveal-word');
 
-    // Muted but readable inactive state (Iron Hill uses visible medium-gray)
-    gsap.set(wordEls, { opacity: 0.3, color: '#555555' });
+    // Muted + blurred inactive state
+    gsap.set(wordEls, { opacity: 0.2, color: '#555555', filter: 'blur(2px)' });
 
     const wordCount = wordEls.length;
-    // Tighter scroll: short text scrolls fast, long text doesn't overstay
     const totalScroll = 100 + wordCount * 3 + (images ? 60 : 0) + (body ? 30 : 0);
 
     const tl = gsap.timeline({
@@ -59,6 +58,7 @@ export default function CharacterReveal({
         {
           opacity: 1,
           color: '#FAFAFA',
+          filter: 'blur(0px)',
           duration: 1,
           ease: 'power1.out',
         },
@@ -75,16 +75,20 @@ export default function CharacterReveal({
         tl.fromTo(
           card,
           {
-            x: fromLeft ? -300 : 300,
+            x: fromLeft ? -400 : 400,
             rotateY: fromLeft ? 25 : -25,
             z: -200,
             opacity: 0,
+            scale: 0.7,
+            filter: 'blur(4px)',
           },
           {
             x: 0,
             rotateY: 0,
             z: 0,
             opacity: 1,
+            scale: 1,
+            filter: 'blur(0px)',
             duration: 4,
             ease: 'power3.out',
           },

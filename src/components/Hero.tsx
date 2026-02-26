@@ -18,9 +18,22 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current || !contentRef.current) return;
+
+    // Text entrance animation
+    gsap.fromTo('.hero-line',
+      { y: 80, opacity: 0, rotateX: 15 },
+      { y: 0, opacity: 1, rotateX: 0, duration: 1.2, stagger: 0.15, ease: 'power4.out', delay: 0.3 }
+    );
+
+    // CTA fade in after text
+    gsap.fromTo('.hero-cta',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.8 }
+    );
 
     gsap.to(contentRef.current, {
       opacity: 0,
@@ -34,6 +47,35 @@ export default function Hero() {
         scrub: 0.5,
       },
     });
+
+    // Mouse parallax on cards container
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!cardsContainerRef.current) return;
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      gsap.to(cardsContainerRef.current, { x, y, duration: 0.8, ease: 'power2.out' });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Magnetic cursor effect on CTA button
+    const cta = ctaRef.current;
+    const handleCtaMouseMove = (e: MouseEvent) => {
+      if (!cta) return;
+      const rect = cta.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) * 0.15;
+      const dy = (e.clientY - cy) * 0.15;
+      gsap.to(cta, { x: dx, y: dy, duration: 0.4, ease: 'power2.out' });
+    };
+    const handleCtaMouseLeave = () => {
+      if (!cta) return;
+      gsap.to(cta, { x: 0, y: 0, duration: 0.4, ease: 'power2.out' });
+    };
+    if (cta) {
+      cta.addEventListener('mousemove', handleCtaMouseMove);
+      cta.addEventListener('mouseleave', handleCtaMouseLeave);
+    }
 
     if (cardsContainerRef.current) {
       const cards = cardsContainerRef.current.querySelectorAll('.hero-card');
@@ -132,6 +174,11 @@ export default function Hero() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (cta) {
+        cta.removeEventListener('mousemove', handleCtaMouseMove);
+        cta.removeEventListener('mouseleave', handleCtaMouseLeave);
+      }
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === sectionRef.current) st.kill();
       });
@@ -169,11 +216,13 @@ export default function Hero() {
           {HERO_IMAGES.map((src, i) => (
             <div
               key={i}
-              className="hero-card absolute rounded-lg overflow-hidden shadow-2xl"
+              className="hero-card absolute rounded-lg overflow-hidden"
               style={{
                 width: `${180 + i * 12}px`,
                 height: `${220 + i * 15}px`,
                 transformStyle: 'preserve-3d',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+                border: '1px solid rgba(255,255,255,0.05)',
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -183,20 +232,23 @@ export default function Hero() {
         </div>
 
         {/* Main text */}
-        <div className="relative z-[2] text-center">
-          <h1 className="font-heading text-[clamp(56px,12vw,160px)] font-bold leading-[0.92] italic text-[#FAFAFA] mb-8">
-            Creative<br />
-            <span className="text-[#E8E8E8]">that converts.</span>
+        <div className="relative z-[2] text-center" style={{ perspective: '600px' }}>
+          <h1 className="font-heading text-[clamp(56px,12vw,160px)] font-bold leading-[0.92] italic text-[#FAFAFA] mb-8 overflow-hidden">
+            <span className="hero-line inline-block">Creative</span><br />
+            <span className="hero-line inline-block text-[#E8E8E8]">that converts.</span>
           </h1>
 
-          <a
-            href="#portfolio"
-            className="inline-block rounded-full border border-[rgba(255,255,255,0.15)] px-8 py-3 text-xs uppercase tracking-[0.25em] text-[#999] transition-all duration-300 hover:border-[#E8E8E8] hover:text-[#FAFAFA] mb-12"
-          >
-            View our work
-          </a>
+          <div className="hero-cta">
+            <a
+              ref={ctaRef}
+              href="#portfolio"
+              className="inline-block rounded-full border border-[rgba(255,255,255,0.15)] px-8 py-3 text-xs uppercase tracking-[0.25em] text-[#999] transition-all duration-300 hover:border-[#E8E8E8] hover:text-[#FAFAFA] mb-12"
+            >
+              View our work
+            </a>
 
-          <ScrollIndicator />
+            <ScrollIndicator />
+          </div>
         </div>
       </div>
     </section>

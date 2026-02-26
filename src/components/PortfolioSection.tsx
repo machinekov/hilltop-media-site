@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/animations';
 import { splitIntoWords } from '@/lib/animations';
 import { PORTFOLIO } from '@/lib/constants';
@@ -10,13 +10,15 @@ export default function PortfolioSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const [visibleIndex, setVisibleIndex] = useState(0);
 
   const words = splitIntoWords('Brands built, revenue driven.');
+  const totalItems = PORTFOLIO.length;
 
   useEffect(() => {
     if (!sectionRef.current || !headingRef.current || !cardsRef.current) return;
 
-    // 1. Word-by-word heading reveal (Iron Hill style)
+    // 1. Word-by-word heading reveal
     const wordEls = headingRef.current.querySelectorAll('.portfolio-word');
     gsap.set(wordEls, { opacity: 0.3, color: '#555555' });
 
@@ -37,34 +39,31 @@ export default function PortfolioSection() {
       );
     });
 
-    // 2. Portfolio cards — Iron Hill style 3D fly-in from alternating sides
+    // 2. Portfolio cards with clipPath reveal
     const cards = cardsRef.current.querySelectorAll('.portfolio-card');
 
     cards.forEach((card, i) => {
-      const fromLeft = i % 2 === 0;
-
       gsap.fromTo(
         card,
         {
-          x: fromLeft ? -120 : 120,
-          rotateY: fromLeft ? 8 : -8,
-          z: -100,
+          clipPath: 'inset(100% 0% 0% 0%)',
           opacity: 0,
-          scale: 0.92,
         },
         {
-          x: 0,
-          rotateY: 0,
-          z: 0,
+          clipPath: 'inset(0% 0% 0% 0%)',
           opacity: 1,
-          scale: 1,
-          duration: 1.4,
-          ease: 'power3.out',
+          duration: 1.2,
+          ease: 'power3.inOut',
           scrollTrigger: {
             trigger: card,
-            start: 'top 90%',
-            end: 'top 50%',
+            start: 'top 85%',
+            end: 'top 40%',
             scrub: 0.5,
+            onUpdate: (self) => {
+              if (self.progress > 0.5) {
+                setVisibleIndex(i);
+              }
+            },
           },
         }
       );
@@ -116,7 +115,7 @@ export default function PortfolioSection() {
         </span>
       </div>
 
-      {/* Word-by-word heading reveal (Iron Hill style) */}
+      {/* Word-by-word heading reveal */}
       <div ref={headingRef} className="mx-auto max-w-7xl mb-20 text-center">
         <p className="font-heading text-[clamp(32px,6vw,72px)] font-bold leading-[1.1] italic">
           {words.map((word, i) => (
@@ -130,7 +129,14 @@ export default function PortfolioSection() {
         </p>
       </div>
 
-      {/* Portfolio cards with 3D fly-in animations */}
+      {/* Counter */}
+      <div className="mx-auto max-w-6xl mb-8 text-right">
+        <span className="font-heading text-sm tracking-[0.2em] text-[#666666]">
+          {String(visibleIndex + 1).padStart(2, '0')} / {String(totalItems).padStart(2, '0')}
+        </span>
+      </div>
+
+      {/* Portfolio cards with clipPath reveal */}
       <div
         ref={cardsRef}
         className="mx-auto flex max-w-6xl flex-col items-center gap-10"
@@ -162,14 +168,14 @@ export default function PortfolioSection() {
             {/* Gradient overlay */}
             <div className="portfolio-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-70 transition-opacity duration-700" />
 
-            {/* Category badge — top left */}
+            {/* Category badge */}
             <div className="absolute top-6 left-6 md:top-8 md:left-8">
               <span className="inline-block rounded-full border border-[rgba(255,255,255,0.2)] bg-[rgba(0,0,0,0.3)] backdrop-blur-sm px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-[#E8E8E8]">
                 {item.category}
               </span>
             </div>
 
-            {/* Number badge — top right (Iron Hill style) */}
+            {/* Number badge */}
             <div className="absolute top-6 right-6 md:top-8 md:right-8">
               <span className="font-heading text-5xl font-bold text-[rgba(255,255,255,0.08)] md:text-7xl italic">
                 {String(i + 1).padStart(2, '0')}

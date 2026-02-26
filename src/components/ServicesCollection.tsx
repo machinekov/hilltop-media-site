@@ -49,7 +49,6 @@ export default function ServicesCollection() {
       }
 
       if (i > 0) {
-        // Curtain transition: scale-down + blur exit, fade-up entrance
         tl.to(slides[i - 1], { opacity: 0, y: -60, scale: 0.95, filter: 'blur(4px)', duration: 0.4 }, i - 0.5);
         tl.to(slide, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.4 }, i - 0.3);
       }
@@ -75,6 +74,23 @@ export default function ServicesCollection() {
           },
           i === 0 ? 0 : i - 0.1
         );
+
+        // Ken Burns effect on image
+        const img = card.querySelector('.service-card-img');
+        if (img) {
+          tl.fromTo(img, { scale: 1 }, { scale: 1.08, duration: 2, ease: 'none' }, i === 0 ? 0 : i - 0.3);
+        }
+      }
+
+      // Text stagger
+      const textEls = slide.querySelectorAll('.service-text-stagger');
+      if (textEls.length > 0) {
+        tl.fromTo(
+          textEls,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
+          i === 0 ? 0.2 : i - 0.05
+        );
       }
     });
 
@@ -98,7 +114,7 @@ export default function ServicesCollection() {
             className="service-slide absolute inset-0 flex items-center justify-center"
           >
             <div className="flex w-full max-w-6xl flex-col items-center gap-12 md:flex-row md:gap-16">
-              {/* Image card — glass effect */}
+              {/* Image card */}
               <div
                 className="service-card glass-card relative h-72 w-full overflow-hidden rounded-xl md:h-[500px] md:w-1/2"
                 style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}
@@ -107,23 +123,25 @@ export default function ServicesCollection() {
                   src={service.image}
                   alt={service.title}
                   fill
-                  className="object-cover"
+                  className="service-card-img object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
 
               {/* Text content */}
               <div className="flex flex-col gap-6 md:w-1/2">
-                <Badge index={i} />
-                <h3 className="font-heading text-5xl font-bold text-[#FAFAFA] md:text-7xl italic">
+                <div className="service-text-stagger">
+                  <Badge index={i} />
+                </div>
+                <h3 className="service-text-stagger font-heading text-5xl font-bold text-[#FAFAFA] md:text-7xl italic">
                   {service.title}
                 </h3>
-                <p className="text-lg text-[#E8E8E8]">{service.subtitle}</p>
-                <p className="text-base leading-relaxed text-[#666666]">
+                <p className="service-text-stagger text-lg text-[#E8E8E8]">{service.subtitle}</p>
+                <p className="service-text-stagger text-base leading-relaxed text-[#666666]">
                   {service.description}
                 </p>
 
-                <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
+                <div className="service-text-stagger mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
                   {service.items.map((item) => (
                     <span
                       key={item}
@@ -136,7 +154,7 @@ export default function ServicesCollection() {
 
                 <a
                   href="#contact"
-                  className="group mt-4 inline-flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-[#FAFAFA] transition-colors hover:text-[#FFFFFF]"
+                  className="service-text-stagger group mt-4 inline-flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-[#FAFAFA] transition-colors hover:text-[#FFFFFF]"
                 >
                   {service.link}
                   <span className="inline-block transition-transform group-hover:translate-x-1">

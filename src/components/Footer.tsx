@@ -2,14 +2,63 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/animations';
+import { splitIntoWords } from '@/lib/animations';
 import { FOOTER } from '@/lib/constants';
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
+  const ctaHeadingRef = useRef<HTMLHeadingElement>(null);
+  const columnsRef = useRef<HTMLDivElement>(null);
+
+  const ctaWords = splitIntoWords("Let's build something worth remembering.");
 
   useEffect(() => {
     if (!footerRef.current) return;
 
+    // Word-by-word color reveal on CTA heading
+    if (ctaHeadingRef.current) {
+      const wordEls = ctaHeadingRef.current.querySelectorAll('.footer-cta-word');
+      gsap.set(wordEls, { opacity: 0.3, color: '#555555' });
+
+      const headingTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ctaHeadingRef.current,
+          start: 'top 80%',
+          end: 'top 40%',
+          scrub: 0.3,
+        },
+      });
+
+      wordEls.forEach((word, i) => {
+        headingTl.to(
+          word,
+          { opacity: 1, color: '#FAFAFA', duration: 1, ease: 'power1.out' },
+          i * 0.3
+        );
+      });
+    }
+
+    // Link columns stagger from bottom
+    if (columnsRef.current) {
+      const cols = columnsRef.current.querySelectorAll('.footer-col');
+      gsap.fromTo(
+        cols,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: columnsRef.current,
+            start: 'top 85%',
+          },
+        }
+      );
+    }
+
+    // Other footer elements stagger
     const elements = footerRef.current.querySelectorAll('.footer-animate');
     gsap.fromTo(
       elements,
@@ -29,7 +78,7 @@ export default function Footer() {
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === footerRef.current) st.kill();
+        if (st.trigger === footerRef.current || st.trigger === ctaHeadingRef.current || st.trigger === columnsRef.current) st.kill();
       });
     };
   }, []);
@@ -43,20 +92,25 @@ export default function Footer() {
     >
       <div className="mx-auto max-w-6xl">
         {/* CTA Block */}
-        <div className="footer-animate mb-24 text-center">
-          <h3 className="font-heading text-[clamp(28px,5vw,56px)] font-bold text-[#FAFAFA] italic leading-tight mb-4">
-            Let&apos;s build something
-            <br />
-            worth remembering.
+        <div className="mb-24 text-center">
+          <h3
+            ref={ctaHeadingRef}
+            className="font-heading text-[clamp(28px,5vw,56px)] font-bold italic leading-tight mb-4"
+          >
+            {ctaWords.map((word, i) => (
+              <span key={i} className="footer-cta-word inline text-[#FAFAFA]">
+                {word}{' '}
+              </span>
+            ))}
           </h3>
-          <p className="mx-auto mb-8 max-w-md text-base text-[#666666] leading-relaxed">
+          <p className="footer-animate mx-auto mb-8 max-w-md text-base text-[#666666] leading-relaxed">
             {FOOTER.consultationNote}
           </p>
           <a
             href={FOOTER.bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block rounded-full border border-[#E8E8E8] px-10 py-4 text-sm uppercase tracking-[0.2em] text-[#E8E8E8] transition-all duration-300 hover:bg-[#E8E8E8] hover:text-[#0A0A0A]"
+            className="footer-animate inline-block rounded-full border border-[#E8E8E8] px-10 py-4 text-sm uppercase tracking-[0.2em] text-[#E8E8E8] transition-all duration-300 hover:bg-[#E8E8E8] hover:text-[#0A0A0A]"
           >
             {FOOTER.bookingCta}
           </a>
@@ -103,9 +157,9 @@ export default function Footer() {
           </div>
 
           {/* Right: Link Columns */}
-          <div className="grid grid-cols-3 gap-8">
+          <div ref={columnsRef} className="grid grid-cols-3 gap-8">
             {/* Services */}
-            <div>
+            <div className="footer-col">
               <h5 className="mb-5 text-xs uppercase tracking-[0.25em] text-[#FAFAFA] font-medium">
                 Services
               </h5>
@@ -124,7 +178,7 @@ export default function Footer() {
             </div>
 
             {/* Company */}
-            <div>
+            <div className="footer-col">
               <h5 className="mb-5 text-xs uppercase tracking-[0.25em] text-[#FAFAFA] font-medium">
                 Company
               </h5>
@@ -143,7 +197,7 @@ export default function Footer() {
             </div>
 
             {/* Connect */}
-            <div>
+            <div className="footer-col">
               <h5 className="mb-5 text-xs uppercase tracking-[0.25em] text-[#FAFAFA] font-medium">
                 Connect
               </h5>
