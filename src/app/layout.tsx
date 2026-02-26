@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Inter } from 'next/font/google';
+import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
-  variable: '--font-space-grotesk',
+const playfair = Playfair_Display({
+  variable: '--font-playfair',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
 });
 
-const inter = Inter({
-  variable: '--font-inter',
+const jakarta = Plus_Jakarta_Sans({
+  variable: '--font-jakarta',
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>
+      <body className={`${playfair.variable} ${jakarta.variable} antialiased`}>
         {children}
       </body>
     </html>

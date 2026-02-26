@@ -3,11 +3,10 @@
 export const COLORS = {
   bg: '#0A0A0A',
   text: '#FAFAFA',
-  textSecondary: '#888888',
-  accent: '#FEC81E',
-  accentMuted: 'rgba(254, 200, 30, 0.1)',
-  svgPathFaint: '#2A2A2A',
-  svgPathBold: '#FEC81E',
+  textSecondary: '#666666',
+  accent: '#E8E8E8',
+  accentHover: '#FFFFFF',
+  subtle: 'rgba(255, 255, 255, 0.08)',
 } as const;
 
 export const NAV_LINKS = [
@@ -160,4 +159,13 @@ export const FOOTER = {
     ],
   },
   copyright: '\u00A92025 Hilltop Media. All rights reserved. Vancouver, BC',
+} as const;
+
+// Section background colors for cinematic gradient shifts
+export const SECTION_BG_COLORS = {
+  hero: '#0A0A0A',
+  reveal: '#0C0A08',
+  services: '#08090C',
+  portfolio: '#0A0A0A',
+  footer: '#111111',
 } as const;

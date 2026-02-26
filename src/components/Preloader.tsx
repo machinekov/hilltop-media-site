@@ -40,16 +40,16 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0A0A0A]"
         >
           <div className="flex flex-col items-center gap-8">
-            <span className="font-heading text-7xl font-bold text-[#FEC81E] tabular-nums md:text-9xl">
+            <span className="font-heading text-7xl font-bold text-[#E8E8E8] tabular-nums md:text-9xl">
               {String(count).padStart(3, '0')}
             </span>
-            <div className="h-[2px] w-48 overflow-hidden bg-[#2A2A2A] md:w-64">
+            <div className="h-[2px] w-48 overflow-hidden bg-[rgba(255,255,255,0.08)] md:w-64">
               <div
                 ref={barRef}
-                className="h-full w-0 bg-[#FEC81E]"
+                className="h-full w-0 bg-[#E8E8E8]"
               />
             </div>
-            <span className="text-sm uppercase tracking-[0.3em] text-[#888888]">
+            <span className="text-sm uppercase tracking-[0.3em] text-[#666666] font-medium">
               Hilltop Media
             </span>
           </div>

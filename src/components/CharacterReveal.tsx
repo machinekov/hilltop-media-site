@@ -26,6 +26,7 @@ export default function CharacterReveal({
   const wordsContainerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const bottomNoteRef = useRef<HTMLParagraphElement>(null);
   const words = splitIntoWords(text);
 
   useEffect(() => {
@@ -33,16 +34,13 @@ export default function CharacterReveal({
 
     const wordEls = wordsContainerRef.current.querySelectorAll('.reveal-word');
 
-    // Set initial state: all words dimmed
     gsap.set(wordEls, { opacity: 0.15, color: '#555555' });
 
-    // Calculate scroll distance proportional to word count
     const wordCount = wordEls.length;
-    const baseScroll = 150; // vh
+    const baseScroll = 150;
     const extraScroll = Math.max(0, (wordCount - 10) * 8);
     const totalScroll = baseScroll + extraScroll + (images ? 100 : 0) + (body ? 50 : 0);
 
-    // Word-by-word reveal timeline
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
@@ -55,7 +53,6 @@ export default function CharacterReveal({
       },
     });
 
-    // Each word reveals from dimmed to bright white
     wordEls.forEach((word, i) => {
       tl.to(
         word,
@@ -71,7 +68,6 @@ export default function CharacterReveal({
 
     const revealEnd = wordEls.length * 0.4;
 
-    // Card fly-in animations with 3D perspective
     if (cardsRef.current) {
       const cards = cardsRef.current.querySelectorAll('.reveal-card');
       cards.forEach((card, i) => {
@@ -97,7 +93,6 @@ export default function CharacterReveal({
       });
     }
 
-    // Body text fade in
     if (bodyRef.current) {
       tl.fromTo(
         bodyRef.current,
@@ -107,12 +102,21 @@ export default function CharacterReveal({
       );
     }
 
+    if (bottomNoteRef.current) {
+      tl.fromTo(
+        bottomNoteRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 2, ease: 'power2.out' },
+        revealEnd * 0.85
+      );
+    }
+
     return () => {
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === sectionRef.current) st.kill();
       });
     };
-  }, [words.length, images, body]);
+  }, [words.length, images, body, bottomNote]);
 
   return (
     <section
@@ -121,19 +125,17 @@ export default function CharacterReveal({
       className="relative min-h-screen"
     >
       <div className="flex min-h-screen flex-col items-center justify-center px-6 md:px-16 lg:px-24">
-        {/* Location label */}
         {location && (
-          <span className="mb-12 text-xs uppercase tracking-[0.3em] text-[#888888]">
+          <span className="mb-12 text-xs uppercase tracking-[0.3em] text-[#666666] font-medium">
             {location}
           </span>
         )}
 
-        {/* Word-by-word reveal text */}
         <div
           ref={wordsContainerRef}
           className="max-w-5xl text-center"
         >
-          <p className="font-heading text-[clamp(28px,5vw,64px)] font-bold leading-[1.15]">
+          <p className="font-heading text-[clamp(28px,5vw,64px)] font-bold leading-[1.15] italic">
             {words.map((word, i) => (
               <span key={i} className="reveal-word inline-block mr-[0.3em] text-[#FAFAFA]">
                 {word}
@@ -142,7 +144,6 @@ export default function CharacterReveal({
           </p>
         </div>
 
-        {/* 3D Cards with perspective */}
         {images && images.length > 0 && (
           <div
             ref={cardsRef}
@@ -167,16 +168,14 @@ export default function CharacterReveal({
           </div>
         )}
 
-        {/* Body copy */}
         {body && (
           <div ref={bodyRef} className="mt-16 max-w-2xl text-center">
-            <p className="text-lg leading-relaxed text-[#888888]">{body}</p>
+            <p className="text-lg leading-relaxed text-[#666666]">{body}</p>
           </div>
         )}
 
-        {/* Bottom note */}
         {bottomNote && (
-          <p className="mt-12 max-w-lg text-center text-sm leading-relaxed text-[#888888]">
+          <p ref={bottomNoteRef} className="mt-12 max-w-lg text-center text-sm leading-relaxed text-[#666666]">
             {bottomNote}
           </p>
         )}

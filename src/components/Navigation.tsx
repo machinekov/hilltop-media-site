@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS, SOCIAL_LINKS } from '@/lib/constants';
-import Image from 'next/image';
 
 export default function Navigation() {
   const [open, setOpen] = useState(false);
@@ -13,13 +12,11 @@ export default function Navigation() {
       {/* Logo */}
       <div className="fixed left-6 top-6 z-[100] md:left-10 md:top-10">
         <a href="#" className="block">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/logo/hilltop-logo.png"
             alt="Hilltop Media"
-            width={140}
-            height={49}
             className="h-auto w-[120px] md:w-[140px]"
-            priority
           />
         </a>
       </div>
@@ -27,7 +24,7 @@ export default function Navigation() {
       {/* Hamburger */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed right-6 top-6 z-[100] flex h-12 w-12 items-center justify-center rounded-full border border-[#333] bg-[#0A0A0A]/80 backdrop-blur-sm transition-colors hover:border-[#FEC81E] md:right-10 md:top-10"
+        className="fixed right-6 top-6 z-[100] flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A]/80 backdrop-blur-sm transition-colors hover:border-[#E8E8E8] md:right-10 md:top-10"
         aria-label="Menu"
       >
         <div className="flex flex-col items-center gap-[6px]">
@@ -62,7 +59,7 @@ export default function Navigation() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: i * 0.08, duration: 0.4 }}
-                  className="font-heading text-4xl font-bold text-[#FAFAFA] transition-colors hover:text-[#FEC81E] md:text-6xl"
+                  className="font-heading text-4xl font-bold text-[#FAFAFA] transition-colors hover:text-[#E8E8E8] md:text-6xl"
                 >
                   {link.label}
                 </motion.a>
@@ -81,7 +78,7 @@ export default function Navigation() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm uppercase tracking-[0.2em] text-[#888888] transition-colors hover:text-[#FEC81E]"
+                  className="text-sm uppercase tracking-[0.2em] text-[#666666] transition-colors hover:text-[#FFFFFF]"
                 >
                   {link.label}
                 </a>

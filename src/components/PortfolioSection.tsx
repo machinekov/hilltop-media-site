@@ -46,22 +46,19 @@ export default function PortfolioSection() {
       tl.to(word, { opacity: 1, color: '#FAFAFA', duration: 0.5 }, i * 0.2);
     });
 
-    // 3D card fly-ins with perspective transforms
+    // Full-width card slide-up entrances
     cards.forEach((card, i) => {
-      const fromLeft = i % 2 === 0;
       tl.fromTo(
         card,
         {
-          x: fromLeft ? -300 : 300,
-          rotateY: fromLeft ? 25 : -25,
-          z: -200,
+          y: 100,
           opacity: 0,
+          scale: 0.95,
         },
         {
-          x: 0,
-          rotateY: 0,
-          z: 0,
+          y: 0,
           opacity: 1,
+          scale: 1,
           duration: 1.2,
           ease: 'power3.out',
         },
@@ -69,7 +66,6 @@ export default function PortfolioSection() {
       );
     });
 
-    // Fade in case study detail
     if (detailRef.current) {
       tl.fromTo(
         detailRef.current,
@@ -94,13 +90,13 @@ export default function PortfolioSection() {
     >
       <div className="flex h-screen flex-col items-center justify-center px-6 md:px-16">
         {/* Section header */}
-        <span className="mb-6 text-sm uppercase tracking-[0.3em] text-[#FEC81E]">
+        <span className="mb-6 text-sm uppercase tracking-[0.3em] text-[#E8E8E8] font-medium">
           Our Work
         </span>
 
         {/* Large text reveal */}
         <div ref={headingRef} className="mb-12 text-center">
-          <p className="font-heading text-[clamp(32px,6vw,72px)] font-bold leading-[1.1]">
+          <p className="font-heading text-[clamp(32px,6vw,72px)] font-bold leading-[1.1] italic">
             {words.map((word, i) => (
               <span
                 key={i}
@@ -112,39 +108,37 @@ export default function PortfolioSection() {
           </p>
         </div>
 
-        {/* Portfolio cards */}
+        {/* Full-width portfolio cards */}
         <div
           ref={cardsContainerRef}
-          className="flex w-full max-w-5xl flex-col gap-6 md:flex-row md:gap-8"
-          style={{ perspective: '1200px' }}
+          className="flex w-full max-w-6xl flex-col gap-6"
         >
           {PORTFOLIO.map((item) => (
             <div
               key={item.title}
-              className="portfolio-card group relative h-72 flex-1 cursor-pointer overflow-hidden rounded-xl md:h-96"
-              style={{ transformStyle: 'preserve-3d' }}
+              className="portfolio-card group relative w-full cursor-pointer overflow-hidden rounded-xl h-48 md:h-64"
             >
               <Image
                 src={item.image}
                 alt={item.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="100vw"
               />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              {/* Text */}
-              <div className="absolute bottom-0 left-0 p-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#FEC81E]">
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              {/* Text overlay at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 transition-transform duration-500 group-hover:-translate-y-2">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#E8E8E8] mb-2">
                   {item.category}
                 </p>
-                <h4 className="font-heading mt-2 text-2xl font-bold text-[#FAFAFA] md:text-3xl">
+                <h4 className="font-heading text-2xl font-bold text-[#FAFAFA] md:text-4xl italic">
                   {item.title}
                 </h4>
               </div>
               {/* Hover explore indicator */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <span className="rounded-full bg-[#FEC81E] px-6 py-2 text-sm font-bold text-[#0A0A0A]">
+                <span className="rounded-full border border-[#E8E8E8] bg-[rgba(255,255,255,0.1)] backdrop-blur-sm px-6 py-2 text-sm font-medium text-[#FAFAFA]">
                   Explore
                 </span>
               </div>
@@ -155,7 +149,7 @@ export default function PortfolioSection() {
         {/* VUE Case Study Detail */}
         {PORTFOLIO[0].description && (
           <div ref={detailRef} className="mt-10 max-w-2xl text-center">
-            <p className="text-sm leading-relaxed text-[#888888]">
+            <p className="text-sm leading-relaxed text-[#666666]">
               {PORTFOLIO[0].description}
             </p>
           </div>
@@ -168,7 +162,7 @@ export default function PortfolioSection() {
               key={i}
               className="h-2 w-2 rounded-full transition-colors duration-300"
               style={{
-                backgroundColor: i === activeIndex ? '#FEC81E' : '#333',
+                backgroundColor: i === activeIndex ? '#E8E8E8' : 'rgba(255,255,255,0.1)',
               }}
             />
           ))}

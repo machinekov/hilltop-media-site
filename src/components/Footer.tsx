@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/animations';
 import { FOOTER } from '@/lib/constants';
-import Image from 'next/image';
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -39,25 +38,25 @@ export default function Footer() {
     <footer
       ref={footerRef}
       id="contact"
-      className="relative z-10 border-t border-[#1A1A1A] bg-[#0A0A0A] px-6 py-20 md:px-16 lg:px-24"
+      className="relative z-10 border-t border-[rgba(255,255,255,0.06)] px-6 py-20 md:px-16 lg:px-24"
+      style={{ backgroundColor: '#111111' }}
     >
       {/* Logo watermark */}
       <div className="footer-animate mb-20 flex justify-center overflow-hidden opacity-10">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/logo/hilltop-logo.png"
           alt="Hilltop Media"
-          width={1050}
-          height={365}
           className="w-full max-w-[600px] h-auto"
         />
       </div>
 
       {/* Newsletter */}
       <div className="footer-animate mx-auto mb-20 max-w-xl text-center">
-        <p className="mb-6 text-lg text-[#888888]">{FOOTER.newsletter}</p>
+        <p className="mb-6 text-lg text-[#666666]">{FOOTER.newsletter}</p>
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="flex overflow-hidden rounded-full border border-[#333]"
+          className="flex overflow-hidden rounded-full border border-[rgba(255,255,255,0.1)]"
         >
           <input
             type="email"
@@ -66,7 +65,7 @@ export default function Footer() {
           />
           <button
             type="submit"
-            className="flex items-center justify-center bg-[#FEC81E] px-6 text-[#0A0A0A] transition-colors hover:bg-[#e6b41b]"
+            className="flex items-center justify-center bg-[#E8E8E8] px-6 text-[#0A0A0A] transition-colors hover:bg-[#FFFFFF]"
             aria-label="Subscribe"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -88,18 +87,18 @@ export default function Footer() {
           href={FOOTER.bookingUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block rounded-full border border-[#FEC81E] px-8 py-4 text-sm uppercase tracking-[0.2em] text-[#FEC81E] transition-colors hover:bg-[#FEC81E] hover:text-[#0A0A0A]"
+          className="inline-block rounded-full border border-[#E8E8E8] px-8 py-4 text-sm uppercase tracking-[0.2em] text-[#E8E8E8] transition-colors hover:bg-[#E8E8E8] hover:text-[#0A0A0A]"
         >
           {FOOTER.bookingCta}
         </a>
-        <p className="mt-4 text-sm text-[#888888]">{FOOTER.email}</p>
+        <p className="mt-4 text-sm text-[#666666]">{FOOTER.email}</p>
       </div>
 
       {/* Columns */}
       <div className="footer-animate mx-auto grid max-w-5xl grid-cols-1 gap-12 md:grid-cols-3">
         {/* Services */}
         <div>
-          <h5 className="mb-6 text-xs uppercase tracking-[0.3em] text-[#FAFAFA]">
+          <h5 className="mb-6 text-xs uppercase tracking-[0.3em] text-[#FAFAFA] font-medium">
             Services
           </h5>
           <ul className="flex flex-col gap-3">
@@ -107,7 +106,7 @@ export default function Footer() {
               <li key={item}>
                 <a
                   href="#services"
-                  className="text-[#888888] transition-colors hover:text-[#FAFAFA]"
+                  className="text-[#666666] transition-colors hover:text-[#FAFAFA]"
                 >
                   {item}
                 </a>
@@ -118,7 +117,7 @@ export default function Footer() {
 
         {/* Company */}
         <div>
-          <h5 className="mb-6 text-xs uppercase tracking-[0.3em] text-[#FAFAFA]">
+          <h5 className="mb-6 text-xs uppercase tracking-[0.3em] text-[#FAFAFA] font-medium">
             Company
           </h5>
           <ul className="flex flex-col gap-3">
@@ -126,7 +125,7 @@ export default function Footer() {
               <li key={item}>
                 <a
                   href={`#${item.toLowerCase()}`}
-                  className="text-[#888888] transition-colors hover:text-[#FAFAFA]"
+                  className="text-[#666666] transition-colors hover:text-[#FAFAFA]"
                 >
                   {item}
                 </a>
@@ -137,7 +136,7 @@ export default function Footer() {
 
         {/* Connect */}
         <div>
-          <h5 className="mb-6 text-xs uppercase tracking-[0.3em] text-[#FAFAFA]">
+          <h5 className="mb-6 text-xs uppercase tracking-[0.3em] text-[#FAFAFA] font-medium">
             Connect
           </h5>
           <ul className="flex flex-col gap-3">
@@ -147,7 +146,7 @@ export default function Footer() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#888888] transition-colors hover:text-[#FAFAFA]"
+                  className="text-[#666666] transition-colors hover:text-[#FAFAFA]"
                 >
                   {item.label}
                 </a>
@@ -158,7 +157,7 @@ export default function Footer() {
       </div>
 
       {/* Copyright */}
-      <div className="footer-animate mt-20 border-t border-[#1A1A1A] pt-8 text-center">
+      <div className="footer-animate mt-20 border-t border-[rgba(255,255,255,0.06)] pt-8 text-center">
         <p className="text-sm text-[#555]">{FOOTER.copyright}</p>
       </div>
     </footer>

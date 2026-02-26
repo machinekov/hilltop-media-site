@@ -49,22 +49,22 @@ export default function AmazonFBA() {
   return (
     <section ref={sectionRef} className="relative py-32 px-6 md:px-16 lg:px-24">
       <div ref={contentRef} className="mx-auto max-w-4xl text-center">
-        <span className="fba-subtitle mb-4 block text-sm uppercase tracking-[0.3em] text-[#FEC81E]">
+        <span className="fba-subtitle mb-4 block text-sm uppercase tracking-[0.3em] text-[#E8E8E8] font-medium">
           Amazon Sellers
         </span>
-        <h3 className="fba-heading font-heading mb-6 text-4xl font-bold text-[#FAFAFA] md:text-6xl">
+        <h3 className="fba-heading font-heading mb-6 text-4xl font-bold text-[#FAFAFA] md:text-6xl italic">
           Amazon FBA Creative
         </h3>
-        <p className="fba-subtitle mx-auto mb-12 max-w-xl text-lg text-[#888888]">
+        <p className="fba-subtitle mx-auto mb-12 max-w-xl text-lg text-[#666666]">
           Everything your Amazon brand needs to stand out, convert, and scale.
         </p>
         <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
           {AMAZON_FBA_ITEMS.map((item) => (
             <div
               key={item}
-              className="fba-item rounded-lg border border-[#1A1A1A] bg-[#0F0F0F] px-6 py-5 text-center transition-colors hover:border-[#FEC81E]/30"
+              className="fba-item glass-card rounded-lg px-6 py-5 text-center"
             >
-              <span className="text-sm font-medium text-[#AAAAAA]">{item}</span>
+              <span className="text-sm font-medium text-[#999999]">{item}</span>
             </div>
           ))}
         </div>
