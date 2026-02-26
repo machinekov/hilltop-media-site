@@ -34,7 +34,7 @@ function ParticleText({ progress, phase }: { progress: number; phase: 'loading' 
     const ctx2d = canvas2d.getContext('2d')!;
     const fontSize = Math.floor(textScale * 0.18);
     ctx2d.fillStyle = '#fff';
-    ctx2d.font = `900 ${fontSize}px "Space Grotesk", sans-serif`;
+    ctx2d.font = `italic 900 ${fontSize}px "Playfair Display", serif`;
     ctx2d.textAlign = 'center';
     ctx2d.textBaseline = 'middle';
     ctx2d.fillText('HILLTOP', canvas2d.width / 2, canvas2d.height / 2);
@@ -114,7 +114,7 @@ function ParticleText({ progress, phase }: { progress: number; phase: 'loading' 
       uniforms: {
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
         uGlobalAlpha: { value: 1.0 },
-        uColor: { value: new THREE.Color('#E8D5A3') },
+        uColor: { value: new THREE.Color('#FAFAFA') },
       },
       vertexShader: `
         attribute float aSize;
@@ -329,7 +329,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   if (!visible) return null;
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-[9999] bg-[#060608] overflow-hidden">
+    <div ref={containerRef} className="fixed inset-0 z-[9999] bg-[#0A0A0A] overflow-hidden">
       <ParticleText progress={count} phase={phase} />
 
       {/* Counter overlay */}
@@ -338,7 +338,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         <div className="text-right">
           <span className="font-heading font-bold tabular-nums block leading-none" style={{
             fontSize: 'clamp(48px, 10vw, 120px)',
-            color: 'rgba(232, 213, 163, 0.7)',
+            color: 'rgba(250, 250, 250, 0.6)',
             letterSpacing: '-0.03em',
           }}>
             {String(count).padStart(3, '0')}
@@ -346,7 +346,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           <div className="mt-3 flex flex-col items-end gap-3">
             <div className="h-px w-24 overflow-hidden md:w-32" style={{ background: 'rgba(255,255,255,0.04)' }}>
               <div ref={barRef} className="h-full w-0" style={{
-                background: 'linear-gradient(90deg, rgba(100,100,120,0.3), rgba(201,169,110,0.6))',
+                background: 'linear-gradient(90deg, rgba(150,150,150,0.3), rgba(232,232,232,0.6))',
               }} />
             </div>
           </div>
