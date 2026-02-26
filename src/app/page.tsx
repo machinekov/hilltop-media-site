@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import Preloader from '@/components/Preloader';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
-import HeroTransition from '@/components/HeroTransition';
+// HeroTransition removed — SVG mask looked cheap without real illustrated artwork
 import CharacterReveal from '@/components/CharacterReveal';
 import ServicesCollection from '@/components/ServicesCollection';
 import PortfolioSection from '@/components/PortfolioSection';
@@ -80,9 +80,6 @@ export default function Home() {
             <main className="relative z-10">
               {/* Hero */}
               <Hero />
-
-              {/* Hero dissolve transition — dark to light like Iron Hill's forest dissolve */}
-              <HeroTransition />
 
               {/* Character Reveal 1 */}
               <div data-bg={BG_COLORS.reveal1}>
