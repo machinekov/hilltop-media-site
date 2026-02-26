@@ -105,6 +105,20 @@ body {
   transform: scale(1.02);
 }
 
+/* Portfolio card hover effect */
+.portfolio-card-hover:hover .portfolio-image {
+  transform: scale(1.05);
+}
+
+.portfolio-card-hover:hover .portfolio-overlay {
+  opacity: 0.6;
+}
+
+/* Smooth image zoom */
+.portfolio-image {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Section transition base */
 .section-cinematic {
   transition: background-color 0.8s ease;

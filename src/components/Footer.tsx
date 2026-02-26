@@ -81,8 +81,14 @@ export default function Footer() {
         </form>
       </div>
 
-      {/* Booking CTA */}
+      {/* Booking CTA with consultation note */}
       <div className="footer-animate mx-auto mb-20 text-center">
+        <h4 className="font-heading text-2xl font-bold text-[#FAFAFA] italic mb-4">
+          Schedule a Consultation
+        </h4>
+        <p className="mx-auto mb-6 max-w-md text-sm text-[#666666] leading-relaxed">
+          {FOOTER.consultationNote}
+        </p>
         <a
           href={FOOTER.bookingUrl}
           target="_blank"

@@ -18,6 +18,7 @@ export const NAV_LINKS = [
 
 export const SOCIAL_LINKS = [
   { label: 'Instagram', href: 'https://instagram.com/thehilltopmedia' },
+  { label: 'Behance', href: 'https://www.behance.net/hilltopmedia3' },
   { label: 'Twitter', href: 'https://twitter.com/thehilltopmedia' },
   { label: 'Threads', href: 'https://threads.net/@thehilltopmedia' },
 ] as const;
@@ -34,11 +35,11 @@ export const REVEAL_1 = {
 export const REVEAL_2 = {
   location: 'Vancouver, BC',
   text: "We don't just make things look good. We make creative that drives revenue. Every brand, website, and campaign we produce starts with your business goals and works backward to the creative.",
-  body: "Most agencies deliver assets. We deliver outcomes. That's why our clients stay. From logo to launch, from listing to ad spend, we are the only partner you need. Branding, web, video, packaging, paid ads, all under one roof.",
+  body: "Most agencies deliver assets. We deliver outcomes. That is why our clients stay. From logo to launch, from listing to ad spend, we are the only partner you need. Branding, web, video, packaging, paid ads, all under one roof.",
   images: [
-    '/portfolio/portfolio-1.jpg',
-    '/portfolio/portfolio-2.jpg',
-    '/portfolio/portfolio-3.jpg',
+    '/portfolio/prodigy-cover.jpg',
+    '/portfolio/nlps-cover.jpg',
+    '/portfolio/molibu-cover.jpg',
   ],
 } as const;
 
@@ -80,12 +81,18 @@ export const SERVICES_GROWTH_ITEMS = [
 ] as const;
 
 export const AMAZON_FBA_ITEMS = [
-  'Branding & Logos',
-  'Packaging & Inserts',
-  'Listing Images',
-  'Listing Copywriting',
-  'Photos & Videos',
-  'A+ & EBC Content',
+  { name: 'Branding & Logos', description: 'Your brand becomes instantly recognizable and builds trust as your business grows.' },
+  { name: 'Packaging & Inserts', description: 'Eye grabbing packaging visuals and inserts that enrich the unboxing journey.' },
+  { name: 'Listing Images', description: 'Visually striking images that impress and educate the customer to make a purchase.' },
+  { name: 'Listing Copywriting', description: 'Careful keyword planning and beautiful copy that tells the story of your product.' },
+  { name: 'Photos & Videos', description: 'Product photography and video that brings the best out of your products.' },
+  { name: 'A+ & EBC Content', description: 'Extra imagery and text modules that take your listing to the next level.' },
+] as const;
+
+export const AMAZON_FBA_PRICING = [
+  { tier: 'Core', price: '$1,350' },
+  { tier: 'Pro', price: '$1,995' },
+  { tier: 'Pro Plus', price: '$3,495' },
 ] as const;
 
 export const SERVICES = [
@@ -96,7 +103,7 @@ export const SERVICES = [
     description:
       'Some may call us a full service creative agency, some may call us designers, but all our clients call us partners. Whether your company is launching a new logo, campaign, or website, as long as the outcome is something you can see, hear or feel, we can help.',
     link: 'Learn more',
-    image: '/portfolio/portfolio-1.jpg',
+    image: '/portfolio/prodigy-cover.jpg',
     items: SERVICES_FOUNDATION_ITEMS,
   },
   {
@@ -106,7 +113,7 @@ export const SERVICES = [
     description:
       'Logos, websites, packaging, brand guidelines. Everything your brand needs to look and feel premium.',
     link: 'Learn more',
-    image: '/portfolio/portfolio-2.jpg',
+    image: '/portfolio/clipjuice-cover.jpg',
     items: SERVICES_PILLARS_ITEMS,
   },
   {
@@ -116,30 +123,60 @@ export const SERVICES = [
     description:
       'Paid ads, social content, video, and campaigns designed to convert. We manage the spend, you count the revenue.',
     link: 'Learn more',
-    image: '/portfolio/portfolio-3.jpg',
+    image: '/portfolio/ona-cover.jpg',
     items: SERVICES_GROWTH_ITEMS,
   },
 ] as const;
 
 export const PORTFOLIO = [
   {
+    title: 'Prodigy Intelligence',
+    category: 'Brand Identity',
+    image: '/portfolio/prodigy-cover.jpg',
+    description: 'A comprehensive brand guidelines system for Prodigy Intelligence. Ultra clean, corporate tech minimalism with precise typography and futuristic spacing.',
+    behanceUrl: 'https://www.behance.net/gallery/242670675/Prodigy',
+  },
+  {
     title: 'VUE Glazing',
     category: 'Rebrand',
-    image: '/portfolio/portfolio-1.jpg',
-    description:
-      'Siber Special Projects, a luxury glazing firm, approached us seeking a comprehensive rebranding strategy to align its visual identity with its long term vision. Together, we embarked on a creative process that led to the creation of their new name, VUE. Capturing the essence of their excellence in architectural engineering, aesthetic prowess, and precision.',
+    image: '/portfolio/nlps-cover.jpg',
+    description: 'Siber Special Projects, a luxury glazing firm, approached us seeking a comprehensive rebranding strategy. Together we created VUE, capturing excellence in architectural engineering, aesthetic prowess, and precision.',
+    behanceUrl: 'https://www.behance.net/gallery/242631959/NLPS',
   },
   {
-    title: 'Diamond Student (FBA)',
-    category: 'Branding + Listing',
-    image: '/portfolio/portfolio-2.jpg',
-    description: '',
+    title: 'Clipjuice',
+    category: 'Branding',
+    image: '/portfolio/clipjuice-cover.jpg',
+    description: 'Brand identity and creative direction for Clipjuice, from initial sketches to final mark. A process driven approach that uncovered the brand essence through dozens of explorations.',
+    behanceUrl: 'https://www.behance.net/gallery/242632833/Clipjuice',
   },
   {
-    title: 'Shape Properties',
-    category: 'Social Growth',
-    image: '/portfolio/portfolio-3.jpg',
-    description: '',
+    title: 'Molibu',
+    category: 'Brand Identity + Web',
+    image: '/portfolio/molibu-cover.jpg',
+    description: 'Premium brand identity and website for Molibu, a luxury real estate developer and builder. Modern architectural aesthetics meet clean digital experiences.',
+    behanceUrl: 'https://www.behance.net/gallery/242632479/Molibu',
+  },
+  {
+    title: 'Ona',
+    category: 'Visual Identity',
+    image: '/portfolio/ona-cover.jpg',
+    description: 'Visual identity system for Ona. Clean, commercial product branding with a fresh, approachable aesthetic that stands out on shelf and screen.',
+    behanceUrl: 'https://www.behance.net/gallery/242630927/Ona',
+  },
+  {
+    title: 'Fuzzo',
+    category: 'Visual Identity',
+    image: '/portfolio/fuzzo-cover.jpg',
+    description: 'Playful, character driven brand identity for Fuzzo. Custom typography, a memorable mascot, and a punchy color palette that brings instant personality.',
+    behanceUrl: 'https://www.behance.net/gallery/242629965/Fuzzo',
+  },
+  {
+    title: 'Clipjuice Highlight',
+    category: 'Social Content',
+    image: '/portfolio/clipjuice-highlight-cover.jpg',
+    description: 'Social media content portfolio showcase for Clipjuice. Dynamic phone mockups displaying short form video content across TikTok and Instagram.',
+    behanceUrl: 'https://www.behance.net/gallery/242670713/Clipjuice-Highlight',
   },
 ] as const;
 
@@ -148,17 +185,18 @@ export const FOOTER = {
   bookingCta: 'Book a free consultation',
   bookingUrl: 'https://calendly.com/thehilltopmedia/15min',
   email: 'info@thehilltopmedia.com',
+  consultationNote: 'By the end of this call, you will have the best course of action with or without our services.',
   columns: {
     services: ['Brand Strategy', 'Design', 'Web Development', 'Advertising'],
     company: ['About', 'Work', 'Contact'],
     connect: [
       { label: 'Instagram', href: 'https://instagram.com/thehilltopmedia' },
+      { label: 'Behance', href: 'https://www.behance.net/hilltopmedia3' },
       { label: 'Twitter', href: 'https://twitter.com/thehilltopmedia' },
-      { label: 'Threads', href: 'https://threads.net/@thehilltopmedia' },
       { label: 'Email', href: 'mailto:info@thehilltopmedia.com' },
     ],
   },
-  copyright: '\u00A92025 Hilltop Media. All rights reserved. Vancouver, BC',
+  copyright: '\u00A92026 Hilltop Media. All rights reserved. Vancouver, BC',
 } as const;
 
 // Section background colors for cinematic gradient shifts
