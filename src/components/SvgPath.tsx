@@ -22,7 +22,7 @@ export default function SvgPath() {
       strokeDashoffset: 0,
       ease: 'none',
       scrollTrigger: {
-        trigger: containerRef.current,
+        trigger: document.documentElement,
         start: 'top top',
         end: 'bottom bottom',
         scrub: 1,
@@ -31,46 +31,49 @@ export default function SvgPath() {
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === containerRef.current) st.kill();
+        if (st.trigger === containerRef.current || st.trigger === document.documentElement) st.kill();
       });
     };
   }, []);
 
-  // A winding SVG path that spans the full page height
+  // A flowing, decorative winding path
   const d = `
-    M 100 0
-    C 100 200, 300 300, 200 500
-    S 50 700, 150 900
-    S 350 1100, 200 1300
-    S 50 1500, 150 1700
-    S 300 1900, 200 2100
-    S 50 2300, 150 2500
-    S 350 2700, 200 2900
-    S 50 3100, 150 3300
-    S 300 3500, 200 3700
-    S 50 3900, 150 4100
-    S 350 4300, 200 4500
-    S 50 4700, 150 4900
-    S 300 5100, 200 5300
-    S 50 5500, 150 5700
-    S 350 5900, 200 6100
-    S 50 6300, 150 6500
-    S 300 6700, 200 6900
-    S 50 7100, 150 7300
-    S 350 7500, 200 7700
-    S 50 7900, 150 8100
-    S 300 8300, 200 8500
-    S 50 8700, 150 8900
-    S 350 9100, 200 9300
-    S 50 9500, 150 9700
-    S 300 9900, 200 10000
+    M 80 0
+    C 80 150, 320 200, 250 400
+    S 30 550, 120 750
+    S 350 900, 230 1100
+    S 20 1250, 150 1450
+    S 380 1600, 250 1800
+    S 30 1950, 120 2150
+    S 350 2300, 230 2500
+    S 20 2650, 150 2850
+    S 380 3000, 250 3200
+    S 30 3350, 120 3550
+    S 350 3700, 230 3900
+    S 20 4050, 150 4250
+    S 380 4400, 250 4600
+    S 30 4750, 120 4950
+    S 350 5100, 230 5300
+    S 20 5450, 150 5650
+    S 380 5800, 250 6000
+    S 30 6150, 120 6350
+    S 350 6500, 230 6700
+    S 20 6850, 150 7050
+    S 380 7200, 250 7400
+    S 30 7550, 120 7750
+    S 350 7900, 230 8100
+    S 20 8250, 150 8450
+    S 380 8600, 250 8800
+    S 30 8950, 120 9150
+    S 350 9300, 230 9500
+    S 20 9650, 150 9850
+    S 300 10000, 200 10000
   `;
 
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none fixed inset-0 z-0"
-      style={{ height: '100vh' }}
+      className="pointer-events-none fixed inset-0 z-0 opacity-60"
     >
       <svg
         className="absolute left-0 top-0 h-full w-full"
@@ -85,7 +88,7 @@ export default function SvgPath() {
           strokeWidth="1.5"
           fill="none"
         />
-        {/* Bold animated path */}
+        {/* Gold animated path drawn on scroll */}
         <path
           ref={pathRef}
           d={d}

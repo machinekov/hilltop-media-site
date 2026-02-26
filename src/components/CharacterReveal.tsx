@@ -28,34 +28,50 @@ export default function CharacterReveal({
   const bodyRef = useRef<HTMLDivElement>(null);
   const words = splitIntoWords(text);
 
-  // Calculate section height based on content complexity
-  const heightMultiplier = images ? 5 : body ? 4 : 3;
-
   useEffect(() => {
     if (!sectionRef.current || !wordsContainerRef.current) return;
 
     const wordEls = wordsContainerRef.current.querySelectorAll('.reveal-word');
 
-    // Set initial state
-    gsap.set(wordEls, { opacity: 0.15 });
+    // Set initial state: all words dimmed
+    gsap.set(wordEls, { opacity: 0.15, color: '#555555' });
 
-    // Word-by-word reveal
+    // Calculate scroll distance proportional to word count
+    const wordCount = wordEls.length;
+    const baseScroll = 150; // vh
+    const extraScroll = Math.max(0, (wordCount - 10) * 8);
+    const totalScroll = baseScroll + extraScroll + (images ? 100 : 0) + (body ? 50 : 0);
+
+    // Word-by-word reveal timeline
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: 'top top',
-        end: `${60}% top`,
-        scrub: 0.5,
+        end: `+=${totalScroll}vh`,
+        scrub: 0.3,
         pin: true,
         pinSpacing: true,
+        anticipatePin: 1,
       },
     });
 
+    // Each word reveals from dimmed to bright white
     wordEls.forEach((word, i) => {
-      tl.to(word, { opacity: 1, duration: 1 }, i * 0.3);
+      tl.to(
+        word,
+        {
+          opacity: 1,
+          color: '#FAFAFA',
+          duration: 1,
+          ease: 'power1.out',
+        },
+        i * 0.4
+      );
     });
 
-    // Card animations
+    const revealEnd = wordEls.length * 0.4;
+
+    // Card fly-in animations with 3D perspective
     if (cardsRef.current) {
       const cards = cardsRef.current.querySelectorAll('.reveal-card');
       cards.forEach((card, i) => {
@@ -63,18 +79,20 @@ export default function CharacterReveal({
         tl.fromTo(
           card,
           {
-            x: fromLeft ? -150 : 150,
-            rotateY: fromLeft ? 20 : -20,
+            x: fromLeft ? -300 : 300,
+            rotateY: fromLeft ? 25 : -25,
+            z: -200,
             opacity: 0,
           },
           {
             x: 0,
             rotateY: 0,
+            z: 0,
             opacity: 1,
-            duration: 3,
+            duration: 4,
             ease: 'power3.out',
           },
-          (wordEls.length * 0.3) * 0.5
+          revealEnd * 0.5 + i * 1.5
         );
       });
     }
@@ -83,9 +101,9 @@ export default function CharacterReveal({
     if (bodyRef.current) {
       tl.fromTo(
         bodyRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 3 },
-        (wordEls.length * 0.3) * 0.7
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 3, ease: 'power2.out' },
+        revealEnd * 0.7
       );
     }
 
@@ -100,8 +118,7 @@ export default function CharacterReveal({
     <section
       ref={sectionRef}
       id={id}
-      className="relative"
-      style={{ minHeight: `${heightMultiplier * 100}vh` }}
+      className="relative min-h-screen"
     >
       <div className="flex min-h-screen flex-col items-center justify-center px-6 md:px-16 lg:px-24">
         {/* Location label */}
@@ -125,12 +142,12 @@ export default function CharacterReveal({
           </p>
         </div>
 
-        {/* 3D Cards */}
+        {/* 3D Cards with perspective */}
         {images && images.length > 0 && (
           <div
             ref={cardsRef}
             className="mt-16 flex flex-col gap-6 md:flex-row md:gap-8"
-            style={{ perspective: '1000px' }}
+            style={{ perspective: '1200px' }}
           >
             {images.map((img, i) => (
               <div

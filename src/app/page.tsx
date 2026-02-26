@@ -8,6 +8,7 @@ import Hero from '@/components/Hero';
 import CharacterReveal from '@/components/CharacterReveal';
 import ServicesCollection from '@/components/ServicesCollection';
 import PortfolioSection from '@/components/PortfolioSection';
+import AmazonFBA from '@/components/AmazonFBA';
 import Footer from '@/components/Footer';
 import { REVEAL_1, REVEAL_2, REVEAL_3 } from '@/lib/constants';
 
@@ -55,6 +56,9 @@ export default function Home() {
 
             {/* Services Collection */}
             <ServicesCollection />
+
+            {/* Amazon FBA Creative */}
+            <AmazonFBA />
 
             {/* Portfolio Section */}
             <PortfolioSection />

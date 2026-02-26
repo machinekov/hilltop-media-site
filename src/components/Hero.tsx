@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/animations';
 import { HERO } from '@/lib/constants';
 import ScrollIndicator from './ScrollIndicator';
+import Image from 'next/image';
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -12,6 +13,7 @@ export default function Hero() {
   useEffect(() => {
     if (!sectionRef.current || !contentRef.current) return;
 
+    // Fade out hero content as user scrolls
     gsap.to(contentRef.current, {
       opacity: 0,
       y: -80,
@@ -40,17 +42,21 @@ export default function Hero() {
         className="sticky top-0 flex h-screen w-full flex-col items-center justify-center px-6"
       >
         {/* Pre-title */}
-        <span className="mb-4 text-sm uppercase tracking-[0.3em] text-[#888888] md:text-base">
+        <span className="mb-6 text-sm uppercase tracking-[0.3em] text-[#888888] md:text-base">
           {HERO.preTitle}
         </span>
 
-        {/* Massive wordmark */}
-        <h1 className="font-heading text-center text-[clamp(60px,15vw,180px)] font-bold leading-[0.9] text-[#FAFAFA]">
-          HILLTOP
-        </h1>
-        <h1 className="font-heading text-center text-[clamp(30px,7vw,80px)] font-bold leading-[0.9] text-[#FEC81E]">
-          MEDIA
-        </h1>
+        {/* Logo image */}
+        <div className="relative w-full max-w-[800px]">
+          <Image
+            src="/logo/hilltop-logo.png"
+            alt="Hilltop Media"
+            width={1050}
+            height={365}
+            className="w-full h-auto"
+            priority
+          />
+        </div>
 
         {/* Tagline */}
         <p className="mt-8 text-lg text-[#888888] md:text-xl">

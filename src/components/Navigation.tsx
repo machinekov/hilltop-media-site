@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS, SOCIAL_LINKS } from '@/lib/constants';
+import Image from 'next/image';
 
 export default function Navigation() {
   const [open, setOpen] = useState(false);
@@ -12,25 +13,14 @@ export default function Navigation() {
       {/* Logo */}
       <div className="fixed left-6 top-6 z-[100] md:left-10 md:top-10">
         <a href="#" className="block">
-          <svg
-            width="140"
-            height="28"
-            viewBox="0 0 140 28"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <text
-              x="0"
-              y="22"
-              fontFamily="Space Grotesk, sans-serif"
-              fontWeight="700"
-              fontSize="24"
-              fill="#FAFAFA"
-              letterSpacing="0.1em"
-            >
-              HILLTOP
-            </text>
-          </svg>
+          <Image
+            src="/logo/hilltop-logo.png"
+            alt="Hilltop Media"
+            width={140}
+            height={49}
+            className="h-auto w-[120px] md:w-[140px]"
+            priority
+          />
         </a>
       </div>
 

@@ -54,9 +54,10 @@ export default function ServicesCollection() {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: 'top top',
-        end: `+=${totalSlides * 100}%`,
+        end: `+=${totalSlides * 120}%`,
         scrub: 0.5,
         pin: true,
+        anticipatePin: 1,
         onUpdate: (self) => {
           const idx = Math.min(
             Math.floor(self.progress * totalSlides),
@@ -69,39 +70,62 @@ export default function ServicesCollection() {
 
     slides.forEach((slide, i) => {
       if (i === 0) {
-        // First slide is visible initially
         gsap.set(slide, { opacity: 1, y: 0 });
       } else {
         gsap.set(slide, { opacity: 0, y: 60 });
       }
 
       if (i > 0) {
-        // Fade out previous
+        // Fade out previous section
         tl.to(slides[i - 1], { opacity: 0, y: -60, duration: 0.4 }, i - 0.5);
-        // Fade in current
+        // Fade in current section
         tl.to(slide, { opacity: 1, y: 0, duration: 0.4 }, i - 0.3);
       }
 
-      // Animate card within slide
+      // 3D card fly-in for each slide's image card
       const card = slide.querySelector('.service-card');
-      if (card && i > 0) {
+      if (card) {
         const fromLeft = i % 2 === 0;
-        tl.fromTo(
-          card,
-          {
-            x: fromLeft ? -200 : 200,
-            rotateY: fromLeft ? 25 : -25,
-            opacity: 0,
-          },
-          {
-            x: 0,
-            rotateY: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: 'power3.out',
-          },
-          i - 0.1
-        );
+        if (i === 0) {
+          // First card animates from initial position
+          tl.fromTo(
+            card,
+            {
+              x: fromLeft ? -300 : 300,
+              rotateY: fromLeft ? 25 : -25,
+              z: -200,
+              opacity: 0,
+            },
+            {
+              x: 0,
+              rotateY: 0,
+              z: 0,
+              opacity: 1,
+              duration: 0.5,
+              ease: 'power3.out',
+            },
+            0
+          );
+        } else {
+          tl.fromTo(
+            card,
+            {
+              x: fromLeft ? -300 : 300,
+              rotateY: fromLeft ? 25 : -25,
+              z: -200,
+              opacity: 0,
+            },
+            {
+              x: 0,
+              rotateY: 0,
+              z: 0,
+              opacity: 1,
+              duration: 0.5,
+              ease: 'power3.out',
+            },
+            i - 0.1
+          );
+        }
       }
     });
 
@@ -125,10 +149,10 @@ export default function ServicesCollection() {
             className="service-slide absolute inset-0 flex items-center justify-center"
           >
             <div className="flex w-full max-w-6xl flex-col items-center gap-12 md:flex-row md:gap-16">
-              {/* Image card */}
+              {/* Image card with 3D perspective */}
               <div
                 className="service-card relative h-72 w-full overflow-hidden rounded-xl md:h-[500px] md:w-1/2"
-                style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
+                style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}
               >
                 <Image
                   src={service.image}
@@ -146,9 +170,22 @@ export default function ServicesCollection() {
                   {service.title}
                 </h3>
                 <p className="text-lg text-[#FEC81E]">{service.subtitle}</p>
-                <p className="text-lg leading-relaxed text-[#888888]">
+                <p className="text-base leading-relaxed text-[#888888]">
                   {service.description}
                 </p>
+
+                {/* Service items grid */}
+                <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-2">
+                  {service.items.map((item) => (
+                    <span
+                      key={item}
+                      className="text-sm text-[#AAAAAA]"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
                 <a
                   href="#contact"
                   className="group mt-4 inline-flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-[#FAFAFA] transition-colors hover:text-[#FEC81E]"

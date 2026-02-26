@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/animations';
 import { FOOTER } from '@/lib/constants';
+import Image from 'next/image';
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -18,7 +19,7 @@ export default function Footer() {
         opacity: 1,
         y: 0,
         duration: 0.8,
-        stagger: 0.1,
+        stagger: 0.15,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: footerRef.current,
@@ -40,11 +41,15 @@ export default function Footer() {
       id="contact"
       className="relative z-10 border-t border-[#1A1A1A] bg-[#0A0A0A] px-6 py-20 md:px-16 lg:px-24"
     >
-      {/* Massive wordmark */}
-      <div className="footer-animate mb-20 overflow-hidden">
-        <h2 className="font-heading text-center text-[clamp(60px,15vw,200px)] font-bold leading-[0.9] text-[#1A1A1A]">
-          HILLTOP
-        </h2>
+      {/* Logo watermark */}
+      <div className="footer-animate mb-20 flex justify-center overflow-hidden opacity-10">
+        <Image
+          src="/logo/hilltop-logo.png"
+          alt="Hilltop Media"
+          width={1050}
+          height={365}
+          className="w-full max-w-[600px] h-auto"
+        />
       </div>
 
       {/* Newsletter */}
@@ -87,6 +92,7 @@ export default function Footer() {
         >
           {FOOTER.bookingCta}
         </a>
+        <p className="mt-4 text-sm text-[#888888]">{FOOTER.email}</p>
       </div>
 
       {/* Columns */}
