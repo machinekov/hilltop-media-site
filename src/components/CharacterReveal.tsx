@@ -34,12 +34,12 @@ export default function CharacterReveal({
 
     const wordEls = wordsContainerRef.current.querySelectorAll('.reveal-word');
 
-    gsap.set(wordEls, { opacity: 0.15, color: '#555555' });
+    // Muted but visible inactive state
+    gsap.set(wordEls, { opacity: 0.2, color: '#444444' });
 
     const wordCount = wordEls.length;
-    const baseScroll = 150;
-    const extraScroll = Math.max(0, (wordCount - 10) * 8);
-    const totalScroll = baseScroll + extraScroll + (images ? 100 : 0) + (body ? 50 : 0);
+    // Tighter scroll: short text scrolls fast, long text doesn't overstay
+    const totalScroll = 100 + wordCount * 3 + (images ? 60 : 0) + (body ? 30 : 0);
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -126,7 +126,7 @@ export default function CharacterReveal({
     >
       <div className="flex min-h-screen flex-col items-center justify-center px-6 md:px-16 lg:px-24">
         {location && (
-          <span className="mb-12 text-xs uppercase tracking-[0.3em] text-[#666666] font-medium">
+          <span className="mb-10 text-xs uppercase tracking-[0.3em] text-[#888888] font-medium">
             {location}
           </span>
         )}
@@ -135,7 +135,7 @@ export default function CharacterReveal({
           ref={wordsContainerRef}
           className="max-w-5xl text-center"
         >
-          <p className="font-heading text-[clamp(28px,5vw,64px)] font-bold leading-[1.15] italic">
+          <p className="font-heading text-[clamp(32px,6vw,72px)] font-bold leading-[1.15] italic">
             {words.map((word, i) => (
               <span key={i} className="reveal-word inline text-[#FAFAFA]">
                 {word}{' '}
@@ -147,7 +147,7 @@ export default function CharacterReveal({
         {images && images.length > 0 && (
           <div
             ref={cardsRef}
-            className="mt-16 flex flex-col gap-6 md:flex-row md:gap-8"
+            className="mt-14 flex flex-col gap-5 md:flex-row md:gap-6"
             style={{ perspective: '1200px' }}
           >
             {images.map((img, i) => (
@@ -169,13 +169,13 @@ export default function CharacterReveal({
         )}
 
         {body && (
-          <div ref={bodyRef} className="mt-16 max-w-2xl text-center">
-            <p className="text-lg leading-relaxed text-[#666666]">{body}</p>
+          <div ref={bodyRef} className="mt-14 max-w-2xl text-center">
+            <p className="text-base leading-relaxed text-[#888888] md:text-lg">{body}</p>
           </div>
         )}
 
         {bottomNote && (
-          <p ref={bottomNoteRef} className="mt-12 max-w-lg text-center text-sm leading-relaxed text-[#666666]">
+          <p ref={bottomNoteRef} className="mt-10 max-w-lg text-center text-sm leading-relaxed text-[#888888]">
             {bottomNote}
           </p>
         )}

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/animations';
-import { HERO } from '@/lib/constants';
 import ScrollIndicator from './ScrollIndicator';
 
 const HERO_IMAGES = [
@@ -23,7 +22,6 @@ export default function Hero() {
   useEffect(() => {
     if (!sectionRef.current || !contentRef.current) return;
 
-    // Cinematic fade out on scroll
     gsap.to(contentRef.current, {
       opacity: 0,
       y: -80,
@@ -37,50 +35,45 @@ export default function Hero() {
       },
     });
 
-    // Floating portfolio cards animation
     if (cardsContainerRef.current) {
       const cards = cardsContainerRef.current.querySelectorAll('.hero-card');
 
-      // Initial state: scattered, transparent, rotated
       cards.forEach((card, i) => {
         const angle = (i / cards.length) * Math.PI * 2;
-        const radius = 280 + Math.random() * 80;
+        const radius = 320 + Math.random() * 100;
         const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius * 0.5;
-        const rotation = -15 + Math.random() * 30;
-        const rotY = -20 + Math.random() * 40;
+        const y = Math.sin(angle) * radius * 0.45;
+        const rotation = -12 + Math.random() * 24;
+        const rotY = -15 + Math.random() * 30;
 
         gsap.set(card, {
           x,
           y,
           rotation,
           rotateY: rotY,
-          scale: 0.6 + Math.random() * 0.3,
+          scale: 0.7 + Math.random() * 0.25,
           opacity: 0,
         });
 
-        // Entrance animation
         gsap.to(card, {
-          opacity: 0.15 + Math.random() * 0.15,
+          opacity: 0.35 + Math.random() * 0.2,
           duration: 1.5,
-          delay: 0.8 + i * 0.15,
+          delay: 0.6 + i * 0.12,
           ease: 'power2.out',
         });
 
-        // Continuous floating
         gsap.to(card, {
-          y: `+=${20 + Math.random() * 30}`,
-          x: `+=${-10 + Math.random() * 20}`,
-          rotation: `+=${-5 + Math.random() * 10}`,
-          duration: 4 + Math.random() * 3,
+          y: `+=${15 + Math.random() * 25}`,
+          x: `+=${-8 + Math.random() * 16}`,
+          rotation: `+=${-4 + Math.random() * 8}`,
+          duration: 5 + Math.random() * 3,
           ease: 'sine.inOut',
           repeat: -1,
           yoyo: true,
-          delay: i * 0.3,
+          delay: i * 0.4,
         });
       });
 
-      // Cards fade out on scroll with parallax
       gsap.to(cardsContainerRef.current, {
         y: -200,
         opacity: 0,
@@ -93,7 +86,6 @@ export default function Hero() {
       });
     }
 
-    // Subtle particle canvas
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -109,15 +101,14 @@ export default function Hero() {
     resize();
     window.addEventListener('resize', resize);
 
-    // Create particles
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 50; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: -0.2 + Math.random() * 0.4,
-        vy: -0.3 + Math.random() * 0.1,
+        vx: -0.15 + Math.random() * 0.3,
+        vy: -0.25 + Math.random() * 0.1,
         size: 1 + Math.random() * 1.5,
-        alpha: 0.05 + Math.random() * 0.15,
+        alpha: 0.04 + Math.random() * 0.1,
       });
     }
 
@@ -129,7 +120,6 @@ export default function Hero() {
         if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
         if (p.x < -10) p.x = canvas.width + 10;
         if (p.x > canvas.width + 10) p.x = -10;
-
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(232, 232, 232, ${p.alpha})`;
@@ -151,19 +141,26 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex h-[200vh] items-start justify-center"
+      className="relative flex h-[160vh] items-start justify-center"
     >
       <div
         ref={contentRef}
         className="sticky top-0 flex h-screen w-full flex-col items-center justify-center px-6 overflow-hidden"
       >
-        {/* Particle canvas */}
         <canvas
           ref={canvasRef}
           className="absolute inset-0 pointer-events-none z-0"
         />
 
-        {/* Floating portfolio cards behind text */}
+        {/* Subtle radial glow behind text */}
+        <div
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.025) 0%, transparent 65%)',
+          }}
+        />
+
+        {/* Floating portfolio cards */}
         <div
           ref={cardsContainerRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-[1]"
@@ -174,46 +171,31 @@ export default function Hero() {
               key={i}
               className="hero-card absolute rounded-lg overflow-hidden shadow-2xl"
               style={{
-                width: `${120 + i * 10}px`,
-                height: `${160 + i * 12}px`,
+                width: `${180 + i * 12}px`,
+                height: `${220 + i * 15}px`,
                 transformStyle: 'preserve-3d',
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt=""
-                className="w-full h-full object-cover"
-              />
+              <img src={src} alt="" className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
 
-        {/* Main text content */}
+        {/* Main text */}
         <div className="relative z-[2] text-center">
-          {/* Pre-title */}
-          <span className="mb-6 block text-sm uppercase tracking-[0.3em] text-[#666666] md:text-base font-medium">
-            {HERO.preTitle}
-          </span>
-
-          {/* Tagline — BIG, the hero text */}
-          <h1 className="font-heading text-[clamp(48px,10vw,140px)] font-bold leading-[0.95] italic text-[#FAFAFA] mb-6">
-            Creative
-            <br />
+          <h1 className="font-heading text-[clamp(56px,12vw,160px)] font-bold leading-[0.92] italic text-[#FAFAFA] mb-8">
+            Creative<br />
             <span className="text-[#E8E8E8]">that converts.</span>
           </h1>
 
-          {/* Small logo */}
-          <div className="mx-auto w-[180px] md:w-[220px] opacity-60 mb-8">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logo/hilltop-logo.png"
-              alt="Hilltop Media"
-              className="w-full h-auto"
-            />
-          </div>
+          <a
+            href="#portfolio"
+            className="inline-block rounded-full border border-[rgba(255,255,255,0.15)] px-8 py-3 text-xs uppercase tracking-[0.25em] text-[#999] transition-all duration-300 hover:border-[#E8E8E8] hover:text-[#FAFAFA] mb-12"
+          >
+            View our work
+          </a>
 
-          {/* Scroll indicator */}
           <ScrollIndicator />
         </div>
       </div>

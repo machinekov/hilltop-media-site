@@ -5,37 +5,11 @@ import { gsap, ScrollTrigger } from '@/lib/animations';
 import { SERVICES } from '@/lib/constants';
 import Image from 'next/image';
 
-function Badge({ type }: { type: 'triangle' | 'square' | 'circle' }) {
-  const size = 40;
+function Badge({ index }: { index: number }) {
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
-      {type === 'triangle' && (
-        <polygon
-          points={`${size / 2},4 ${size - 4},${size - 4} 4,${size - 4}`}
-          stroke="#E8E8E8"
-          strokeWidth="1.5"
-        />
-      )}
-      {type === 'square' && (
-        <rect
-          x="4"
-          y="4"
-          width={size - 8}
-          height={size - 8}
-          stroke="#E8E8E8"
-          strokeWidth="1.5"
-        />
-      )}
-      {type === 'circle' && (
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={size / 2 - 4}
-          stroke="#E8E8E8"
-          strokeWidth="1.5"
-        />
-      )}
-    </svg>
+    <span className="font-heading text-6xl font-bold text-[rgba(255,255,255,0.06)] italic">
+      {String(index + 1).padStart(2, '0')}
+    </span>
   );
 }
 
@@ -118,7 +92,7 @@ export default function ServicesCollection() {
       className="relative min-h-screen"
     >
       <div className="relative flex h-screen items-center justify-center overflow-hidden px-6 md:px-16">
-        {SERVICES.map((service) => (
+        {SERVICES.map((service, i) => (
           <div
             key={service.title}
             className="service-slide absolute inset-0 flex items-center justify-center"
@@ -140,7 +114,7 @@ export default function ServicesCollection() {
 
               {/* Text content */}
               <div className="flex flex-col gap-6 md:w-1/2">
-                <Badge type={service.badge} />
+                <Badge index={i} />
                 <h3 className="font-heading text-5xl font-bold text-[#FAFAFA] md:text-7xl italic">
                   {service.title}
                 </h3>

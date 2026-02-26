@@ -38,7 +38,7 @@ export default function Footer() {
     <footer
       ref={footerRef}
       id="contact"
-      className="relative z-10 px-6 py-24 md:px-16 lg:px-24"
+      className="relative z-10 overflow-hidden px-6 py-24 md:px-16 lg:px-24"
       style={{ backgroundColor: '#0A0A0A' }}
     >
       <div className="mx-auto max-w-6xl">
@@ -66,7 +66,7 @@ export default function Footer() {
         <div className="footer-animate mb-16 h-px bg-[rgba(255,255,255,0.06)]" />
 
         {/* Grid: Newsletter + Columns */}
-        <div className="footer-animate mb-16 grid grid-cols-1 gap-16 lg:grid-cols-2">
+        <div className="footer-animate mb-16 grid grid-cols-1 gap-16 lg:grid-cols-2 min-w-0">
           {/* Left: Newsletter */}
           <div>
             <p className="mb-6 text-sm uppercase tracking-[0.2em] text-[#FAFAFA] font-medium">

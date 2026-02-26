@@ -9,37 +9,51 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Logo */}
-      <div className="fixed left-6 top-6 z-[100] md:left-10 md:top-10">
+      {/* Top bar: logo left, nav links center (desktop), hamburger right */}
+      <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 py-5 md:px-10 md:py-6">
+        {/* Logo */}
         <a href="#" className="block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo/hilltop-logo.png"
             alt="Hilltop Media"
-            className="h-auto w-[120px] md:w-[140px]"
+            className="h-auto w-[110px] md:w-[130px]"
           />
         </a>
-      </div>
 
-      {/* Hamburger */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed right-6 top-6 z-[100] flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A]/80 backdrop-blur-sm transition-colors hover:border-[#E8E8E8] md:right-10 md:top-10"
-        aria-label="Menu"
-      >
-        <div className="flex flex-col items-center gap-[6px]">
-          <motion.span
-            animate={open ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
-            className="block h-[1.5px] w-5 bg-[#FAFAFA]"
-          />
-          <motion.span
-            animate={open ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
-            className="block h-[1.5px] w-5 bg-[#FAFAFA]"
-          />
-        </div>
-      </button>
+        {/* Desktop nav links */}
+        <nav className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-[11px] uppercase tracking-[0.2em] text-[#666666] transition-colors hover:text-[#FAFAFA]"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
-      {/* Overlay */}
+        {/* Hamburger (mobile + desktop fallback) */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A]/80 backdrop-blur-sm transition-colors hover:border-[#E8E8E8] md:hidden"
+          aria-label="Menu"
+        >
+          <div className="flex flex-col items-center gap-[5px]">
+            <motion.span
+              animate={open ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
+              className="block h-[1.5px] w-4 bg-[#FAFAFA]"
+            />
+            <motion.span
+              animate={open ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
+              className="block h-[1.5px] w-4 bg-[#FAFAFA]"
+            />
+          </div>
+        </button>
+      </header>
+
+      {/* Mobile overlay */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -59,7 +73,7 @@ export default function Navigation() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: i * 0.08, duration: 0.4 }}
-                  className="font-heading text-4xl font-bold text-[#FAFAFA] transition-colors hover:text-[#E8E8E8] md:text-6xl"
+                  className="font-heading text-4xl font-bold text-[#FAFAFA] transition-colors hover:text-[#E8E8E8] md:text-5xl"
                 >
                   {link.label}
                 </motion.a>

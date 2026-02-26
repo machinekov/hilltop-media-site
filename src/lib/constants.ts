@@ -44,7 +44,7 @@ export const REVEAL_2 = {
 } as const;
 
 export const REVEAL_3 = {
-  text: 'Meet the team that builds brands worth remembering.',
+  text: 'Branding. Design. Advertising. One agency, zero fluff.',
 } as const;
 
 export const SERVICES_FOUNDATION_ITEMS = [
