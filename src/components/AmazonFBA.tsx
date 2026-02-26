@@ -11,46 +11,23 @@ export default function AmazonFBA() {
   useEffect(() => {
     if (!sectionRef.current || !contentRef.current) return;
 
-    const items = contentRef.current.querySelectorAll('.fba-item');
-    const heading = contentRef.current.querySelector('.fba-heading');
-    const subtitle = contentRef.current.querySelector('.fba-subtitle');
-    const desc = contentRef.current.querySelector('.fba-desc');
-    const pricingCards = contentRef.current.querySelectorAll('.fba-pricing');
+    const animEls = contentRef.current.querySelectorAll('.fba-animate');
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 70%',
-        end: 'top 20%',
-        scrub: 0.5,
-      },
-    });
-
-    if (heading) {
-      tl.fromTo(heading, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1 }, 0);
-    }
-    if (subtitle) {
-      tl.fromTo(subtitle, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0.2);
-    }
-    if (desc) {
-      tl.fromTo(desc, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0.3);
-    }
-    items.forEach((item, i) => {
-      tl.fromTo(
-        item,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8 },
-        0.4 + i * 0.15
-      );
-    });
-    pricingCards.forEach((card, i) => {
-      tl.fromTo(
-        card,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8 },
-        1.4 + i * 0.15
-      );
-    });
+    gsap.fromTo(
+      animEls,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+        },
+      }
+    );
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => {
@@ -61,41 +38,44 @@ export default function AmazonFBA() {
 
   return (
     <section ref={sectionRef} className="relative py-32 px-6 md:px-16 lg:px-24">
-      <div ref={contentRef} className="mx-auto max-w-5xl text-center">
-        <span className="fba-subtitle mb-4 block text-sm uppercase tracking-[0.3em] text-[#E8E8E8] font-medium">
-          Your Creative Partner for Amazon
-        </span>
-        <h3 className="fba-heading font-heading mb-6 text-4xl font-bold text-[#FAFAFA] md:text-6xl italic">
-          Amazon FBA Creative
-        </h3>
-        <p className="fba-desc mx-auto mb-16 max-w-2xl text-lg text-[#666666] leading-relaxed">
-          We are a 360 degree Amazon FBA partner agency with expertise in brand creation, graphic design, and listing optimization. We have helped hundreds of businesses discover their brand name, logo, guide, and positioning.
-        </p>
+      <div ref={contentRef} className="mx-auto max-w-5xl">
+        {/* Header */}
+        <div className="fba-animate text-center mb-16">
+          <span className="mb-4 block text-sm uppercase tracking-[0.3em] text-[#E8E8E8] font-medium">
+            Amazon Sellers
+          </span>
+          <h3 className="font-heading mb-6 text-4xl font-bold text-[#FAFAFA] md:text-5xl italic">
+            Amazon FBA Creative
+          </h3>
+          <p className="mx-auto max-w-lg text-base text-[#666666] leading-relaxed">
+            360 degree Amazon FBA partner agency. Brand creation, graphic design, and listing optimization for hundreds of businesses.
+          </p>
+        </div>
 
-        {/* Service items */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-20">
+        {/* Service Grid — 2 columns on mobile, 3 on desktop */}
+        <div className="fba-animate grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-16">
           {AMAZON_FBA_ITEMS.map((item) => (
             <div
               key={item.name}
-              className="fba-item glass-card rounded-lg px-6 py-8 text-left"
+              className="glass-card rounded-lg p-5"
             >
-              <h4 className="text-base font-semibold text-[#FAFAFA] mb-2">{item.name}</h4>
-              <p className="text-sm text-[#666666] leading-relaxed">{item.description}</p>
+              <h4 className="text-sm font-semibold text-[#FAFAFA] mb-1.5">{item.name}</h4>
+              <p className="text-xs text-[#666666] leading-relaxed">{item.description}</p>
             </div>
           ))}
         </div>
 
-        {/* Pricing tiers */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {/* Pricing */}
+        <div className="fba-animate grid grid-cols-3 gap-4 max-w-md mx-auto">
           {AMAZON_FBA_PRICING.map((tier) => (
             <div
               key={tier.tier}
-              className="fba-pricing glass-card rounded-lg px-6 py-8 text-center"
+              className="glass-card rounded-lg py-5 px-3 text-center"
             >
-              <span className="block text-xs uppercase tracking-[0.2em] text-[#E8E8E8] mb-3">
+              <span className="block text-[10px] uppercase tracking-[0.2em] text-[#999] mb-2">
                 {tier.tier}
               </span>
-              <span className="font-heading text-3xl font-bold text-[#FAFAFA] italic">
+              <span className="font-heading text-xl font-bold text-[#FAFAFA] italic md:text-2xl">
                 {tier.price}
               </span>
             </div>
