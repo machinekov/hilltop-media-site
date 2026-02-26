@@ -122,9 +122,9 @@ export default function PortfolioSection() {
           {words.map((word, i) => (
             <span
               key={i}
-              className="portfolio-word inline-block mr-[0.3em] text-[#FAFAFA]"
+              className="portfolio-word inline text-[#FAFAFA]"
             >
-              {word}
+              {word}{i < words.length - 1 ? '\u00A0' : ''}
             </span>
           ))}
         </p>

@@ -137,8 +137,8 @@ export default function CharacterReveal({
         >
           <p className="font-heading text-[clamp(28px,5vw,64px)] font-bold leading-[1.15] italic">
             {words.map((word, i) => (
-              <span key={i} className="reveal-word inline-block mr-[0.3em] text-[#FAFAFA]">
-                {word}
+              <span key={i} className="reveal-word inline text-[#FAFAFA]">
+                {word}{i < words.length - 1 ? '\u00A0' : ''}
               </span>
             ))}
           </p>
