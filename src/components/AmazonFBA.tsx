@@ -37,45 +37,45 @@ export default function AmazonFBA() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 px-6 md:px-16 lg:px-24">
-      <div ref={contentRef} className="mx-auto max-w-5xl">
+    <section ref={sectionRef} className="relative w-full py-32">
+      <div ref={contentRef} className="mx-auto w-full max-w-4xl px-6 md:px-12">
         {/* Header */}
-        <div className="fba-animate text-center mb-16">
-          <span className="mb-4 block text-sm uppercase tracking-[0.3em] text-[#E8E8E8] font-medium">
+        <div className="fba-animate mb-20 text-center">
+          <span className="mb-5 block text-sm uppercase tracking-[0.3em] text-[#888888] font-medium">
             Amazon Sellers
           </span>
-          <h3 className="font-heading mb-6 text-4xl font-bold text-[#FAFAFA] md:text-5xl italic">
+          <h3 className="font-heading mb-8 text-4xl font-bold text-[#FAFAFA] md:text-5xl italic">
             Amazon FBA Creative
           </h3>
-          <p className="mx-auto max-w-lg text-base text-[#666666] leading-relaxed">
+          <p className="mx-auto max-w-md text-base text-[#888888] leading-relaxed">
             360 degree Amazon FBA partner agency. Brand creation, graphic design, and listing optimization for hundreds of businesses.
           </p>
         </div>
 
-        {/* Service Grid — 2 columns on mobile, 3 on desktop */}
-        <div className="fba-animate grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-16">
+        {/* Service Grid */}
+        <div className="fba-animate mb-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {AMAZON_FBA_ITEMS.map((item) => (
             <div
               key={item.name}
-              className="glass-card rounded-lg p-5"
+              className="rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] p-6"
             >
-              <h4 className="text-sm font-semibold text-[#FAFAFA] mb-1.5">{item.name}</h4>
-              <p className="text-xs text-[#666666] leading-relaxed">{item.description}</p>
+              <h4 className="text-sm font-semibold text-[#FAFAFA] mb-3">{item.name}</h4>
+              <p className="text-[13px] text-[#888888] leading-[1.6]">{item.description}</p>
             </div>
           ))}
         </div>
 
         {/* Pricing */}
-        <div className="fba-animate grid grid-cols-3 gap-4 max-w-md mx-auto">
+        <div className="fba-animate mx-auto grid max-w-lg grid-cols-3 gap-5">
           {AMAZON_FBA_PRICING.map((tier) => (
             <div
               key={tier.tier}
-              className="glass-card rounded-lg py-5 px-3 text-center"
+              className="rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] py-6 px-4 text-center"
             >
-              <span className="block text-[10px] uppercase tracking-[0.2em] text-[#999] mb-2">
+              <span className="block text-[10px] uppercase tracking-[0.25em] text-[#888888] mb-3">
                 {tier.tier}
               </span>
-              <span className="font-heading text-xl font-bold text-[#FAFAFA] italic md:text-2xl">
+              <span className="font-heading text-2xl font-bold text-[#FAFAFA] italic">
                 {tier.price}
               </span>
             </div>
