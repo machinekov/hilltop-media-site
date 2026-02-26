@@ -3,29 +3,80 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
-/* SVG pencil icon — tilted as if drawing to the right */
-function PencilSVG({ className }: { className?: string }) {
+/*
+ * Single continuous line face — draws itself as loading progresses.
+ * Artsy minimalist style (Picasso one-line drawing aesthetic).
+ */
+function LineDrawing({ progress }: { progress: number }) {
+  const pathRef = useRef<SVGPathElement>(null);
+  const lengthRef = useRef(0);
+
+  useEffect(() => {
+    if (!pathRef.current) return;
+    lengthRef.current = pathRef.current.getTotalLength();
+    pathRef.current.style.strokeDasharray = `${lengthRef.current}`;
+    pathRef.current.style.strokeDashoffset = `${lengthRef.current}`;
+  }, []);
+
+  useEffect(() => {
+    if (!pathRef.current || !lengthRef.current) return;
+    const offset = lengthRef.current * (1 - progress / 100);
+    pathRef.current.style.strokeDashoffset = `${offset}`;
+  }, [progress]);
+
   return (
     <svg
-      className={className}
-      width="40"
-      height="40"
-      viewBox="0 0 40 40"
+      width="200"
+      height="240"
+      viewBox="0 0 200 240"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ transform: 'rotate(-45deg)' }}
+      className="opacity-90"
     >
-      {/* Pencil body */}
-      <rect x="16" y="4" width="8" height="24" rx="1" fill="#E8E8E8" />
-      {/* Pencil tip */}
-      <polygon points="16,28 24,28 20,36" fill="#FEC81E" />
-      {/* Pencil eraser */}
-      <rect x="16" y="2" width="8" height="4" rx="1" fill="#888888" />
-      {/* Pencil band */}
-      <rect x="15.5" y="6" width="9" height="1.5" fill="#666666" />
-      <rect x="15.5" y="9" width="9" height="1.5" fill="#666666" />
-      {/* Pencil wood taper */}
-      <polygon points="16,24 24,24 22,28 18,28" fill="#C4A87A" />
+      <path
+        ref={pathRef}
+        d={`
+          M 60 180
+          C 55 170, 48 155, 50 140
+          C 52 125, 58 115, 55 105
+          C 52 95, 45 90, 48 80
+          C 51 70, 60 65, 65 55
+          C 70 45, 72 35, 80 30
+          C 88 25, 95 28, 100 25
+          C 105 22, 108 18, 115 20
+          C 122 22, 128 30, 132 38
+          C 136 46, 138 55, 140 65
+          C 142 75, 145 82, 143 92
+          C 141 102, 135 108, 138 115
+          C 141 122, 150 125, 148 135
+          C 146 145, 138 148, 140 155
+          C 142 162, 148 165, 145 175
+          C 142 185, 135 188, 130 192
+          C 125 196, 118 194, 112 198
+          C 106 202, 102 208, 95 210
+          C 88 212, 82 208, 78 205
+          C 74 202, 70 195, 68 190
+          C 66 185, 62 182, 60 180
+          M 75 95
+          C 78 90, 85 88, 88 92
+          C 91 96, 86 100, 82 98
+          C 78 96, 76 98, 75 95
+          M 115 90
+          C 118 86, 125 84, 128 88
+          C 131 92, 126 96, 122 94
+          C 118 92, 116 94, 115 90
+          M 88 125
+          C 92 122, 96 120, 100 122
+          C 104 124, 108 122, 112 125
+          M 90 145
+          C 95 150, 100 152, 105 150
+          C 110 148, 112 145, 115 148
+        `}
+        stroke="#E8E8E8"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ transition: 'stroke-dashoffset 0.05s linear' }}
+      />
     </svg>
   );
 }
@@ -33,60 +84,25 @@ function PencilSVG({ className }: { className?: string }) {
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(true);
-  const barRef = useRef<HTMLDivElement>(null);
-  const pencilRef = useRef<HTMLDivElement>(null);
-  const trailRef = useRef<HTMLDivElement>(null);
   const topHalfRef = useRef<HTMLDivElement>(null);
   const bottomHalfRef = useRef<HTMLDivElement>(null);
   const flashRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const obj = { val: 0 };
-
-    // Pencil bobbing animation (continuous)
-    if (pencilRef.current) {
-      gsap.to(pencilRef.current, {
-        y: -4,
-        rotation: 2,
-        duration: 0.3,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
-      });
-    }
 
     gsap.to(obj, {
       val: 100,
       duration: 2.8,
       ease: 'power2.inOut',
       onUpdate: () => {
-        const v = Math.round(obj.val);
-        setCount(v);
+        setCount(Math.round(obj.val));
         if (barRef.current) {
           barRef.current.style.width = `${obj.val}%`;
         }
-        // Move pencil along with the progress bar
-        if (pencilRef.current) {
-          pencilRef.current.style.left = `${obj.val}%`;
-        }
-        // Trail (drawn line) follows
-        if (trailRef.current) {
-          trailRef.current.style.width = `${obj.val}%`;
-        }
       },
       onComplete: () => {
-        // Pencil exit: flick upward
-        if (pencilRef.current) {
-          gsap.to(pencilRef.current, {
-            y: -80,
-            opacity: 0,
-            rotation: 15,
-            duration: 0.4,
-            ease: 'power2.in',
-          });
-        }
-
         setTimeout(() => {
           const tl = gsap.timeline({
             onComplete: () => {
@@ -95,26 +111,16 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             },
           });
 
-          // Flash at split
           if (flashRef.current) {
             tl.to(flashRef.current, { opacity: 1, duration: 0.1 }, 0);
             tl.to(flashRef.current, { opacity: 0, duration: 0.3 }, 0.1);
           }
 
-          // Split halves
           if (topHalfRef.current) {
-            tl.to(topHalfRef.current, {
-              y: '-100%',
-              duration: 0.7,
-              ease: 'power3.inOut',
-            }, 0.05);
+            tl.to(topHalfRef.current, { y: '-100%', duration: 0.7, ease: 'power3.inOut' }, 0.05);
           }
           if (bottomHalfRef.current) {
-            tl.to(bottomHalfRef.current, {
-              y: '100%',
-              duration: 0.7,
-              ease: 'power3.inOut',
-            }, 0.05);
+            tl.to(bottomHalfRef.current, { y: '100%', duration: 0.7, ease: 'power3.inOut' }, 0.05);
           }
         }, 400);
       },
@@ -124,16 +130,15 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   if (!visible) return null;
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-[9999]">
+    <div className="fixed inset-0 z-[9999]">
       {/* Top half */}
       <div
         ref={topHalfRef}
         className="absolute top-0 left-0 right-0 h-1/2 bg-[#0A0A0A] flex items-end justify-center overflow-hidden"
       >
-        <div className="flex flex-col items-center gap-6 pb-4">
-          <span className="font-heading text-7xl font-bold text-[#E8E8E8] tabular-nums md:text-9xl italic">
-            {String(count).padStart(3, '0')}
-          </span>
+        <div className="flex flex-col items-center pb-4">
+          {/* Line drawing that traces itself */}
+          <LineDrawing progress={count} />
         </div>
       </div>
 
@@ -142,37 +147,26 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         ref={bottomHalfRef}
         className="absolute bottom-0 left-0 right-0 h-1/2 bg-[#0A0A0A] flex items-start justify-center overflow-hidden"
       >
-        <div className="pt-8">
-          <span className="text-xs uppercase tracking-[0.4em] text-[#555555] font-medium">
+        <div className="flex flex-col items-center pt-6 gap-6">
+          {/* Counter */}
+          <span className="font-heading text-5xl font-bold text-[#E8E8E8] tabular-nums md:text-7xl italic">
+            {String(count).padStart(3, '0')}
+          </span>
+          {/* Progress bar */}
+          <div className="h-[1px] w-48 overflow-hidden bg-[rgba(255,255,255,0.06)] md:w-56">
+            <div
+              ref={barRef}
+              className="h-full w-0"
+              style={{ background: 'linear-gradient(90deg, #E8E8E8, #FEC81E)' }}
+            />
+          </div>
+          <span className="text-[10px] uppercase tracking-[0.4em] text-[#555555] font-medium">
             Hilltop Media
           </span>
         </div>
       </div>
 
-      {/* Progress bar area — centered at the split line */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 md:w-72 z-10">
-        {/* Track */}
-        <div className="relative h-[2px] bg-[rgba(255,255,255,0.06)] rounded-full overflow-visible">
-          {/* Drawn trail (gold accent) */}
-          <div
-            ref={trailRef}
-            className="absolute top-0 left-0 h-full w-0 rounded-full"
-            style={{
-              background: 'linear-gradient(90deg, #E8E8E8 0%, #FEC81E 100%)',
-            }}
-          />
-          {/* Pencil character */}
-          <div
-            ref={pencilRef}
-            className="absolute -top-10 left-0 -translate-x-1/2"
-            style={{ transition: 'none' }}
-          >
-            <PencilSVG />
-          </div>
-        </div>
-      </div>
-
-      {/* Flash at split line */}
+      {/* Flash at split */}
       <div
         ref={flashRef}
         className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-[2px] opacity-0 z-20"
