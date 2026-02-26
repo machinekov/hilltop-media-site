@@ -30,7 +30,15 @@ const BG_COLORS = {
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
+  const [skipPreloader, setSkipPreloader] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search.includes('skip-preloader')) {
+      setSkipPreloader(true);
+      setLoaded(true);
+    }
+  }, []);
 
   const handlePreloaderComplete = useCallback(() => {
     setLoaded(true);
@@ -60,7 +68,7 @@ export default function Home() {
 
   return (
     <>
-      <Preloader onComplete={handlePreloaderComplete} />
+      {!skipPreloader && <Preloader onComplete={handlePreloaderComplete} />}
 
       {loaded && (
         <SmoothScroll>
