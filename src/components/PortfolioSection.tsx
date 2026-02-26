@@ -124,7 +124,7 @@ export default function PortfolioSection() {
               key={i}
               className="portfolio-word inline text-[#FAFAFA]"
             >
-              {word}{i < words.length - 1 ? '\u00A0' : ''}
+              {word}{' '}
             </span>
           ))}
         </p>
