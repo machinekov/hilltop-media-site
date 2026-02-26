@@ -13,6 +13,7 @@ import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
 import SectionDivider from '@/components/SectionDivider';
 import CustomCursor from '@/components/CustomCursor';
+import ScrollPath from '@/components/ScrollPath';
 import { REVEAL_1, REVEAL_2, REVEAL_3 } from '@/lib/constants';
 import { gsap, ScrollTrigger } from '@/lib/animations';
 
@@ -69,6 +70,9 @@ export default function Home() {
 
             {/* Custom cursor (desktop only) */}
             <CustomCursor />
+
+            {/* Scroll-driven path draw (Iron Hill style) */}
+            <ScrollPath />
 
             {/* Navigation */}
             <Navigation />
