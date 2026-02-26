@@ -61,32 +61,7 @@ export default function Footer() {
             MEDIA
           </h2>
 
-          {/* Brand element: pencil SVG — positioned like Iron Hill's bigfoot on the text */}
-          <svg
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.15] pointer-events-none"
-            width="120"
-            height="120"
-            viewBox="0 0 40 40"
-            fill="none"
-          >
-            <rect x="16" y="4" width="8" height="24" rx="1" fill="#E8E8E8" />
-            <polygon points="16,28 24,28 20,36" fill="#FEC81E" />
-            <rect x="16" y="2" width="8" height="4" rx="1" fill="#888888" />
-            <rect x="15.5" y="6" width="9" height="1.5" fill="#666666" />
-            <rect x="15.5" y="9" width="9" height="1.5" fill="#666666" />
-            <polygon points="16,24 24,24 22,28 18,28" fill="#C4A87A" />
-          </svg>
-
-          {/* Geometric shapes — scattered like Iron Hill's tree/mermaid/clouds */}
-          <svg className="absolute left-[5%] bottom-[10%] opacity-[0.08] pointer-events-none" width="80" height="100" viewBox="0 0 80 100" fill="none">
-            <polygon points="40,5 75,95 5,95" stroke="#E8E8E8" strokeWidth="1" />
-          </svg>
-          <svg className="absolute right-[8%] top-[15%] opacity-[0.08] pointer-events-none" width="70" height="70" viewBox="0 0 70 70" fill="none">
-            <circle cx="35" cy="35" r="30" stroke="#E8E8E8" strokeWidth="1" />
-          </svg>
-          <svg className="absolute right-[20%] bottom-[5%] opacity-[0.06] pointer-events-none" width="50" height="50" viewBox="0 0 50 50" fill="none">
-            <rect x="5" y="5" width="40" height="40" stroke="#E8E8E8" strokeWidth="1" transform="rotate(15 25 25)" />
-          </svg>
+          {/* Clean — just the massive text, no decorative elements */}
         </div>
       </div>
 
