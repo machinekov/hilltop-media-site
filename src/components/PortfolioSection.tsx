@@ -149,13 +149,13 @@ export default function PortfolioSection() {
             }}
           >
             {/* Image with parallax wrapper */}
-            <div className="portfolio-img-wrapper absolute inset-[-30px]">
+            <div className="portfolio-img-wrapper absolute inset-0 overflow-hidden">
               <Image
                 src={item.image}
                 alt={item.title}
                 fill
-                className="portfolio-image object-cover"
-                sizes="100vw"
+                className="portfolio-image object-cover object-center"
+                sizes="(max-width: 1280px) 100vw, 1280px"
               />
             </div>
 
