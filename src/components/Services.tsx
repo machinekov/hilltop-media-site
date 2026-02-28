@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/animations';
 
-const SERVICE_CATEGORIES = [
+const SERVICE_GROUPS = [
   {
     label: 'Branding',
     items: [
@@ -34,133 +34,72 @@ const SERVICE_CATEGORIES = [
   },
 ];
 
+const TOTAL_ITEMS = SERVICE_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
+
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Header row
-      const header = sectionRef.current!.querySelector('.services-header');
-      if (header) {
-        gsap.fromTo(
-          header,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-            scrollTrigger: { trigger: header, start: 'top 85%' },
-          }
-        );
-      }
+    const rows = sectionRef.current.querySelectorAll('.service-row');
+    rows.forEach((row) => {
+      gsap.fromTo(
+        row,
+        { y: 15, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: row,
+            start: 'top 90%',
+            once: true,
+          },
+        }
+      );
+    });
 
-      // Category blocks
-      const blocks = sectionRef.current!.querySelectorAll('.service-block');
-      blocks.forEach((block, i) => {
-        gsap.fromTo(
-          block,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-            scrollTrigger: { trigger: block, start: 'top 85%' },
-            delay: i * 0.08,
-          }
-        );
-      });
-
-      // Hairlines
-      const hairlines = sectionRef.current!.querySelectorAll('.hairline-animate');
-      hairlines.forEach((line) => {
-        ScrollTrigger.create({
-          trigger: line,
-          start: 'top 90%',
-          onEnter: () => (line as HTMLElement).classList.add('is-visible'),
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="services"
-      style={{
-        backgroundColor: '#FFFFFF',
-        borderTop: '1px solid #E0E0E0',
-        padding: '96px 40px',
-      }}
-    >
+    <section id="services" ref={sectionRef} className="section-pad page-margin">
       {/* Section header */}
-      <div
-        className="services-header flex items-baseline justify-between mb-16"
-        style={{ maxWidth: '1280px', margin: '0 auto 64px' }}
-      >
-        <h2
-          className="font-heading font-bold leading-none"
-          style={{ fontSize: 'clamp(36px, 5vw, 68px)', letterSpacing: '-0.01em' }}
-        >
+      <div className="hairline mb-4" />
+      <div className="flex items-baseline justify-between mb-16">
+        <p className="text-xs tracking-wider uppercase" style={{ color: 'var(--text-secondary)' }}>
           Services
-        </h2>
-        <span
-          className="text-[13px]"
-          style={{
-            color: '#999999',
-            fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-          }}
-        >
-          (6)
+        </p>
+        <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+          ({TOTAL_ITEMS})
         </span>
       </div>
 
-      {/* Categories */}
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-        {SERVICE_CATEGORIES.map((cat, catIdx) => (
-          <div key={cat.label} className="service-block">
-            {catIdx === 0 && <div className="hairline-animate mb-0" />}
-
-            <div
-              className="grid py-10"
-              style={{ gridTemplateColumns: '200px 1fr', gap: '40px', alignItems: 'start' }}
-            >
-              {/* Label */}
-              <span
-                className="text-[11px] font-medium uppercase tracking-[0.12em] pt-1"
-                style={{
-                  color: '#999999',
-                  fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-                }}
-              >
-                {cat.label}
-              </span>
-
-              {/* Items */}
-              <ul className="flex flex-col">
-                {cat.items.map((item, itemIdx) => (
-                  <li key={item}>
-                    <div
-                      className="flex items-center justify-between py-3 group cursor-default"
-                      style={{
-                        borderTop: itemIdx === 0 ? 'none' : '1px solid #E0E0E0',
-                      }}
-                    >
-                      <span
-                        className="text-[13px] transition-colors duration-200 group-hover:text-[#E63329]"
-                        style={{
-                          color: '#000000',
-                          fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-                        }}
-                      >
-                        {item}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+      {/* Service groups */}
+      <div className="space-y-16">
+        {SERVICE_GROUPS.map((group, gi) => (
+          <div key={gi} className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            {/* Label */}
+            <div className="md:col-span-3">
+              <p className="text-xs tracking-wider uppercase" style={{ color: 'var(--text-secondary)' }}>
+                {group.label}
+              </p>
             </div>
 
-            <div style={{ height: '1px', backgroundColor: '#E0E0E0' }} />
+            {/* Items */}
+            <div className="md:col-span-9">
+              {group.items.map((item, ii) => (
+                <div key={ii} className="service-row">
+                  <div className="hairline" />
+                  <p className="py-3 text-sm">{item}</p>
+                </div>
+              ))}
+              <div className="hairline" />
+            </div>
           </div>
         ))}
       </div>

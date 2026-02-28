@@ -1,190 +1,118 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { gsap } from '@/lib/animations';
-
-const MENU_LINKS = [
-  { label: 'Work', href: '#portfolio' },
-  { label: 'Services', href: '#services' },
-  { label: 'Agency', href: '#about' },
-  { label: 'Contact', href: '#contact' },
-  { label: 'Privacy', href: '#' },
-];
-
-const SOCIAL_LINKS = [
-  { label: 'Instagram', href: 'https://instagram.com/thehilltopmedia' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/hilltopmedia' },
-  { label: 'Vimeo', href: 'https://vimeo.com/hilltopmedia' },
-];
-
-const CONNECT_LINKS = [
-  { label: "Let's talk", href: '#contact' },
-  { label: 'boris@thehilltopmedia.com', href: 'mailto:boris@thehilltopmedia.com' },
-];
-
 export default function Footer() {
-  const footerRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (!footerRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const items = footerRef.current!.querySelectorAll('.footer-animate');
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: 24 },
-        {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06,
-          scrollTrigger: { trigger: footerRef.current, start: 'top 80%' },
-        }
-      );
-    }, footerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const colLabel = (text: string) => (
-    <span
-      className="block text-[10px] uppercase tracking-[0.14em] mb-5 font-medium"
-      style={{
-        color: '#999999',
-        fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-      }}
-    >
-      {text}
-    </span>
-  );
-
-  const linkStyle = {
-    color: '#000000',
-    fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-    fontSize: '12px',
-    display: 'block',
-    marginBottom: '10px',
-    transition: 'color 0.2s ease',
-  };
-
   return (
-    <footer
-      ref={footerRef}
-      id="contact"
-      style={{
-        backgroundColor: '#FFFFFF',
-        borderTop: '1px solid #E0E0E0',
-      }}
-    >
-      {/* Upper footer — four-column grid */}
-      <div
-        className="footer-animate"
-        style={{
-          padding: '64px 40px 48px',
-          maxWidth: '1280px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '48px',
-        }}
-      >
-        {/* Menu column */}
+    <footer id="contact" className="page-margin pt-24 pb-12">
+      {/* Upper footer — link columns */}
+      <div className="hairline mb-12" />
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
+        {/* Menu */}
         <div>
-          {colLabel('Menu')}
-          {MENU_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              style={linkStyle}
-              onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = '#E63329')}
-              onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = '#000000')}
-            >
-              {link.label}
-            </a>
-          ))}
+          <p className="text-xs tracking-wider uppercase mb-4" style={{ color: 'var(--text-secondary)' }}>
+            Menu
+          </p>
+          <ul className="space-y-2">
+            {['Work', 'Services', 'Agency', 'Contact', 'Privacy'].map((item) => (
+              <li key={item}>
+                <a href={`#${item.toLowerCase()}`} className="text-sm animated-link hover:opacity-70 transition-opacity">
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Social column */}
+        {/* Social */}
         <div>
-          {colLabel('Social')}
-          {SOCIAL_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={linkStyle}
-              onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = '#E63329')}
-              onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = '#000000')}
-            >
-              {link.label}
-            </a>
-          ))}
+          <p className="text-xs tracking-wider uppercase mb-4" style={{ color: 'var(--text-secondary)' }}>
+            Social
+          </p>
+          <ul className="space-y-2">
+            {[
+              { name: 'Instagram', url: '#' },
+              { name: 'LinkedIn', url: '#' },
+              { name: 'Vimeo', url: '#' },
+            ].map((item) => (
+              <li key={item.name}>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm animated-link hover:opacity-70 transition-opacity"
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Connect column */}
+        {/* Connect */}
         <div>
-          {colLabel('Connect')}
-          {CONNECT_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              style={linkStyle}
-              onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = '#E63329')}
-              onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = '#000000')}
-            >
-              {link.label}
-            </a>
-          ))}
+          <p className="text-xs tracking-wider uppercase mb-4" style={{ color: 'var(--text-secondary)' }}>
+            Connect
+          </p>
+          <ul className="space-y-2">
+            <li>
+              <a href="mailto:boris@thehilltopmedia.com" className="text-sm animated-link hover:opacity-70 transition-opacity">
+                Email us
+              </a>
+            </li>
+            <li>
+              <a href="#contact" className="text-sm animated-link" style={{ color: 'var(--accent)' }}>
+                Let&apos;s talk →
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Info */}
+        <div>
+          <p className="text-xs tracking-wider uppercase mb-4" style={{ color: 'var(--text-secondary)' }}>
+            Info
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            Vancouver, BC<br />
+            Canada
+          </p>
         </div>
       </div>
-
-      {/* Hairline divider */}
-      <div style={{ height: '1px', backgroundColor: '#E0E0E0', margin: '0 40px' }} />
 
       {/* Lower footer — stylized contact block */}
-      <div
-        className="footer-animate"
-        style={{ padding: '48px 40px 56px', maxWidth: '1280px', margin: '0 auto' }}
-      >
+      <div className="hairline mb-8" />
+
+      <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
         <div
-          className="font-heading font-bold leading-[1.1] select-none"
-          style={{ fontSize: 'clamp(28px, 4.5vw, 64px)', color: '#000000', letterSpacing: '-0.01em' }}
+          className="font-heading leading-[1.15] tracking-tight"
+          style={{ fontSize: 'clamp(24px, 3.5vw, 44px)' }}
         >
-          <span style={{ color: '#999999' }}>◇ </span>
-          Hilltop
-          <span style={{ color: '#E63329' }}>→</span>
-          {' '}
-          <span className="font-normal" style={{ fontSize: '0.55em', verticalAlign: 'middle', color: '#666666' }}>
-            49.2827°N
+          <span style={{ color: 'var(--text-secondary)' }}>◇ </span>
+          Hilltop<span style={{ color: 'var(--accent)' }}>→</span> 49.2827°N
+          <span style={{ color: 'var(--accent)' }}>✻</span> Media
+          <span style={{ color: 'var(--text-secondary)', fontSize: '0.6em' }}>™</span>
+          <br />
+          <span className="block mt-1">
+            Vancouver<span style={{ color: 'var(--accent)' }}>❋</span>, Canada
           </span>
-          <span style={{ color: '#E63329' }}>✻</span>
-          {' '}Media
-          <span style={{ fontSize: '0.45em', verticalAlign: 'super', color: '#999999' }}>™</span>
-          <br />
-          Vancouver
-          <span style={{ color: '#E63329' }}>❋</span>
-          , Canada
-          <br />
-          <a
-            href="mailto:boris@thehilltopmedia.com"
-            className="transition-opacity hover:opacity-60"
-            style={{ fontSize: '0.55em', color: '#666666', fontStyle: 'normal', fontWeight: 400, letterSpacing: '-0.005em' }}
-          >
-            boris@thehilltopmedia.com
-          </a>
           <span
-            className="float-right text-[13px] font-normal self-end"
+            className="block mt-2 text-sm"
             style={{
-              color: '#999999',
-              fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-              fontWeight: 400,
-              fontSize: '11px',
-              letterSpacing: '0.02em',
-              paddingTop: '8px',
+              fontFamily: 'var(--font-jakarta)',
+              color: 'var(--text-secondary)',
+              fontSize: '13px',
             }}
           >
-            ©2026
+            boris@thehilltopmedia.com
           </span>
         </div>
+
+        <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+          ©2026 Hilltop Media
+        </span>
       </div>
+
+      <div className="h-8" />
     </footer>
   );
 }

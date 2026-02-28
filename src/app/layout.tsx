@@ -16,10 +16,17 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Hilltop Media | Creative That Converts | Vancouver Creative Agency',
+  title: 'Hilltop Media | Performance Creative Agency | Vancouver',
   description:
     'Vancouver performance creative agency. Branding, web design, video production, packaging, and paid advertising. We deliver outcomes, not just assets.',
-  keywords: ['creative agency Vancouver', 'branding agency Vancouver', 'web design Vancouver', 'performance creative agency', 'Hilltop Media', 'creative that converts'],
+  keywords: [
+    'creative agency Vancouver',
+    'branding agency Vancouver',
+    'web design Vancouver',
+    'performance creative agency',
+    'Hilltop Media',
+    'video production Vancouver',
+  ],
 };
 
 export default function RootLayout({

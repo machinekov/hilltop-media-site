@@ -1,68 +1,86 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap } from '@/lib/animations';
+import { gsap } from 'gsap';
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!contentRef.current) return;
+    if (!titleRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Simple fade-up entrance for content elements
-      gsap.fromTo(
-        '.hero-enter',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1.1, stagger: 0.1, ease: 'power3.out', delay: 0.15 }
-      );
-    }, contentRef);
+    const tl = gsap.timeline({ delay: 0.3 });
 
-    return () => ctx.revert();
+    tl.fromTo(
+      titleRef.current.querySelectorAll('.hero-line'),
+      { y: 60, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: 'power3.out' }
+    );
+
+    tl.fromTo(
+      titleRef.current.querySelectorAll('.hero-meta'),
+      { opacity: 0 },
+      { opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out' },
+      '-=0.4'
+    );
   }, []);
 
   return (
     <section
-      ref={sectionRef}
-      className="relative w-full flex flex-col justify-between"
-      style={{ backgroundColor: '#000000', minHeight: '42vh', paddingTop: '80px' }}
+      ref={heroRef}
+      className="relative w-full flex items-end"
+      style={{
+        backgroundColor: 'var(--hero-bg)',
+        minHeight: '45vh',
+        paddingBottom: 'clamp(40px, 5vh, 60px)',
+      }}
     >
-      {/* Content — bottom-left aligned */}
-      <div ref={contentRef} className="flex flex-col justify-end flex-1 px-[40px] pb-[48px] pt-[32px]">
+      <div ref={titleRef} className="page-margin w-full">
         {/* Service tags */}
-        <div className="flex gap-2 mb-6 hero-enter">
-          <span className="tag-box">BRD</span>
-          <span className="tag-box">WEB</span>
-          <span className="tag-box">VID</span>
+        <div className="hero-line flex items-center gap-2 mb-4">
+          {['BRD', 'WEB', 'VID', 'PKG'].map((tag) => (
+            <span
+              key={tag}
+              className="text-[10px] tracking-[0.15em] uppercase px-2 py-1 border border-white/30"
+              style={{ color: 'rgba(255,255,255,0.6)' }}
+            >
+              {tag}
+            </span>
+          ))}
         </div>
 
-        {/* Main headline */}
-        <h1
-          className="font-heading font-bold text-white leading-[0.92] hero-enter"
-          style={{ fontSize: 'clamp(52px, 7vw, 92px)', maxWidth: '700px' }}
-        >
-          Hilltop Media
-        </h1>
+        {/* Main title */}
+        <div className="flex items-end justify-between w-full">
+          <div>
+            <h1
+              className="hero-line font-heading leading-[0.9] tracking-tight"
+              style={{
+                color: 'var(--hero-text)',
+                fontSize: 'clamp(48px, 7vw, 90px)',
+              }}
+            >
+              Hilltop Media
+            </h1>
+            <p
+              className="hero-line font-heading leading-[1.1] mt-1"
+              style={{
+                color: 'var(--hero-text)',
+                fontSize: 'clamp(28px, 4vw, 52px)',
+                fontWeight: 400,
+              }}
+            >
+              Performance Creative Agency<span style={{ color: 'var(--accent)' }}>✻</span>
+            </p>
+          </div>
 
-        {/* Tagline */}
-        <p
-          className="font-heading text-white hero-enter mt-3"
-          style={{ fontSize: 'clamp(22px, 3vw, 40px)', opacity: 0.82, fontStyle: 'italic', fontWeight: 400 }}
-        >
-          Performance Creative Agency✻
-        </p>
-      </div>
-
-      {/* Copyright — bottom right */}
-      <div
-        className="absolute bottom-[48px] right-[40px] text-[11px] font-medium tracking-[0.06em] hero-enter"
-        style={{
-          color: 'rgba(255,255,255,0.35)',
-          fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-        }}
-      >
-        ©2019-2026
+          <span
+            className="hero-meta hidden md:block text-[10px] tracking-wider pb-2"
+            style={{ color: 'rgba(255,255,255,0.4)' }}
+          >
+            ©2019–2026
+          </span>
+        </div>
       </div>
     </section>
   );

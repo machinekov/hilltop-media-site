@@ -5,7 +5,7 @@
   --foreground: #000000;
   --accent: #E63329;
   --text-secondary: #666666;
-  --divider: #E0E0E0;
+  --border: #E0E0E0;
   --hero-bg: #000000;
   --hero-text: #FFFFFF;
 }
@@ -33,113 +33,114 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
   font-weight: 400;
+  font-size: 13px;
+  line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #FFFFFF;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #CCCCCC;
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #000000;
+  background: #CCC;
+  border-radius: 3px;
 }
 
-/* Font utilities */
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Font utility */
 .font-heading {
   font-family: var(--font-heading, 'Playfair Display', serif);
 }
 
 /* Selection */
 ::selection {
-  background: #000000;
-  color: #FFFFFF;
+  background: rgba(230, 51, 41, 0.15);
+  color: #000000;
 }
 
 /* Hairline divider */
 .hairline {
-  width: 100%;
   height: 1px;
-  background-color: var(--divider);
-}
-
-/* Animated hairline — grows from 0 to 100% on scroll */
-.hairline-animate {
-  width: 0%;
-  height: 1px;
-  background-color: var(--divider);
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hairline-animate.is-visible {
+  background: var(--border);
   width: 100%;
 }
 
-/* Red CTA link */
-.link-red {
-  color: var(--accent);
-  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  transition: opacity 0.2s ease;
-}
-.link-red:hover {
-  opacity: 0.75;
-}
-
-/* Animated underline for footer/manifesto links */
-a.underline-link {
+/* Link hover underline animation */
+a.animated-link {
   position: relative;
-  display: inline-block;
+  text-decoration: none;
 }
-a.underline-link::after {
+a.animated-link::after {
   content: '';
   position: absolute;
-  bottom: -1px;
+  bottom: -2px;
   left: 0;
   width: 100%;
   height: 1px;
-  background: #000000;
+  background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-a.underline-link:hover::after {
+a.animated-link:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
 
-/* Portfolio row hover */
-.portfolio-row {
-  border-top: 1px solid var(--divider);
-  display: flex;
-  align-items: center;
-  transition: color 0.25s ease;
-  cursor: pointer;
+/* Featured work item hover */
+.featured-item {
+  transition: color 0.3s ease, letter-spacing 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.portfolio-row:last-of-type {
-  border-bottom: 1px solid var(--divider);
-}
-.portfolio-row:hover {
+.featured-item:hover {
   color: var(--accent);
 }
 
-/* Tag / label boxes (hero service shorthand) */
-.tag-box {
-  display: inline-block;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  padding: 3px 8px;
-  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.4;
+/* Section spacing */
+.section-pad {
+  padding: 100px 0;
+}
+
+/* Page margins */
+.page-margin {
+  padding-left: clamp(20px, 3vw, 50px);
+  padding-right: clamp(20px, 3vw, 50px);
+}
+
+/* Fade in animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+}
+
+.fade-up.visible {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Nav scroll state */
+.nav-scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
 }
