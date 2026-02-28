@@ -1,174 +1,188 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger } from '@/lib/animations';
-import { splitIntoWords } from '@/lib/animations';
-import { FOOTER } from '@/lib/constants';
+import { gsap } from '@/lib/animations';
+
+const MENU_LINKS = [
+  { label: 'Work', href: '#portfolio' },
+  { label: 'Services', href: '#services' },
+  { label: 'Agency', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+  { label: 'Privacy', href: '#' },
+];
+
+const SOCIAL_LINKS = [
+  { label: 'Instagram', href: 'https://instagram.com/thehilltopmedia' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/company/hilltopmedia' },
+  { label: 'Vimeo', href: 'https://vimeo.com/hilltopmedia' },
+];
+
+const CONNECT_LINKS = [
+  { label: "Let's talk", href: '#contact' },
+  { label: 'boris@thehilltopmedia.com', href: 'mailto:boris@thehilltopmedia.com' },
+];
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-
-  const ctaWords = splitIntoWords("Let's build something that actually works.");
 
   useEffect(() => {
     if (!footerRef.current) return;
 
-    // Staggered fade-in for all footer elements
-    const elements = footerRef.current.querySelectorAll('.footer-animate');
-    gsap.fromTo(elements,
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: footerRef.current, start: 'top 75%' },
-      }
-    );
+    const ctx = gsap.context(() => {
+      const items = footerRef.current!.querySelectorAll('.footer-animate');
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06,
+          scrollTrigger: { trigger: footerRef.current, start: 'top 80%' },
+        }
+      );
+    }, footerRef);
 
-    // Word-by-word CTA reveal
-    if (headingRef.current) {
-      const words = headingRef.current.querySelectorAll('.footer-word');
-      gsap.set(words, { opacity: 0.15, color: '#333333' });
-      gsap.to(words, {
-        opacity: 1, color: '#FAFAFA',
-        stagger: 0.08, duration: 0.5, ease: 'power1.out',
-        scrollTrigger: { trigger: headingRef.current, start: 'top 70%', end: 'top 30%', scrub: 0.3 },
-      });
-    }
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === footerRef.current || (headingRef.current && st.trigger === headingRef.current)) st.kill();
-      });
-    };
+    return () => ctx.revert();
   }, []);
+
+  const colLabel = (text: string) => (
+    <span
+      className="block text-[10px] uppercase tracking-[0.14em] mb-5 font-medium"
+      style={{
+        color: '#999999',
+        fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+      }}
+    >
+      {text}
+    </span>
+  );
+
+  const linkStyle = {
+    color: '#000000',
+    fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+    fontSize: '12px',
+    display: 'block',
+    marginBottom: '10px',
+    transition: 'color 0.2s ease',
+  };
 
   return (
     <footer
       ref={footerRef}
       id="contact"
-      className="relative z-10 min-h-screen overflow-hidden flex flex-col"
-      style={{ backgroundColor: '#0A0A0A' }}
+      style={{
+        backgroundColor: '#FFFFFF',
+        borderTop: '1px solid #E0E0E0',
+      }}
     >
-      {/* Giant brand text — fills the width */}
-      <div className="footer-animate relative flex-shrink-0 pt-20 md:pt-28 overflow-hidden">
-        {/* Massive HILLTOP MEDIA text */}
-        <div className="relative px-4">
-          <h2
-            className="font-heading text-center font-bold italic leading-[0.85] text-[#FAFAFA] select-none"
-            style={{ fontSize: 'clamp(60px, 15vw, 240px)', opacity: 0.06 }}
-          >
-            HILLTOP
-            <br />
-            MEDIA
-          </h2>
-
-          {/* Clean — just the massive text, no decorative elements */}
-        </div>
-      </div>
-
-      {/* CTA section */}
-      <div className="flex-shrink-0 py-16 md:py-20 px-6 md:px-12">
-        <div className="mx-auto max-w-6xl">
-          {/* Word-by-word CTA heading */}
-          <div ref={headingRef} className="footer-animate text-center mb-6">
-            <p className="font-heading text-[clamp(24px,4vw,48px)] font-bold italic leading-tight">
-              {ctaWords.map((word, i) => (
-                <span key={i} className="footer-word inline text-[#FAFAFA]">
-                  {word}{' '}
-                </span>
-              ))}
-            </p>
-          </div>
-
-          <div className="footer-animate text-center mb-10">
-            <p className="mx-auto max-w-md text-sm text-[#666666] leading-relaxed mb-8">
-              {FOOTER.consultationNote}
-            </p>
+      {/* Upper footer — four-column grid */}
+      <div
+        className="footer-animate"
+        style={{
+          padding: '64px 40px 48px',
+          maxWidth: '1280px',
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '48px',
+        }}
+      >
+        {/* Menu column */}
+        <div>
+          {colLabel('Menu')}
+          {MENU_LINKS.map((link) => (
             <a
-              href={FOOTER.bookingUrl}
+              key={link.label}
+              href={link.href}
+              style={linkStyle}
+              onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = '#E63329')}
+              onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = '#000000')}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Social column */}
+        <div>
+          {colLabel('Social')}
+          {SOCIAL_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded-full border border-[rgba(255,255,255,0.15)] px-10 py-4 text-xs uppercase tracking-[0.25em] text-[#999] transition-all duration-300 hover:border-[#FEC81E] hover:text-[#FEC81E]"
+              style={linkStyle}
+              onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = '#E63329')}
+              onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = '#000000')}
             >
-              {FOOTER.bookingCta}
+              {link.label}
             </a>
-          </div>
+          ))}
         </div>
-      </div>
 
-      {/* Divider */}
-      <div className="footer-animate mx-auto w-full max-w-6xl px-6 md:px-12">
-        <div className="h-px bg-[rgba(255,255,255,0.06)]" />
-      </div>
-
-      {/* Bottom section: newsletter + columns */}
-      <div className="flex-1 px-6 py-16 md:px-12">
-        <div className="mx-auto max-w-6xl grid grid-cols-1 gap-12 lg:grid-cols-2">
-          {/* Left: Newsletter */}
-          <div className="footer-animate">
-            <p className="mb-4 text-xs uppercase tracking-[0.25em] text-[#FAFAFA] font-medium">
-              Stay in the loop
-            </p>
-            <p className="mb-5 text-sm text-[#666666] leading-relaxed max-w-sm">
-              {FOOTER.newsletter}. No spam, just signal.
-            </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex max-w-sm overflow-hidden rounded-full border border-[rgba(255,255,255,0.1)]"
+        {/* Connect column */}
+        <div>
+          {colLabel('Connect')}
+          {CONNECT_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              style={linkStyle}
+              onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = '#E63329')}
+              onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = '#000000')}
             >
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 bg-transparent px-5 py-3 text-sm text-[#FAFAFA] placeholder-[#555] outline-none"
-              />
-              <button
-                type="submit"
-                className="flex items-center justify-center bg-[#E8E8E8] px-5 text-[#0A0A0A] transition-colors hover:bg-[#FEC81E]"
-                aria-label="Subscribe"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </form>
-          </div>
-
-          {/* Right: Link Columns */}
-          <div className="footer-animate grid grid-cols-3 gap-8">
-            <div>
-              <h5 className="mb-5 text-xs uppercase tracking-[0.25em] text-[#FAFAFA] font-medium">Services</h5>
-              <ul className="flex flex-col gap-2.5">
-                {FOOTER.columns.services.map((item) => (
-                  <li key={item}><a href="#services" className="text-sm text-[#666666] transition-colors hover:text-[#FAFAFA]">{item}</a></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h5 className="mb-5 text-xs uppercase tracking-[0.25em] text-[#FAFAFA] font-medium">Company</h5>
-              <ul className="flex flex-col gap-2.5">
-                {FOOTER.columns.company.map((item) => (
-                  <li key={item}><a href={`#${item.toLowerCase()}`} className="text-sm text-[#666666] transition-colors hover:text-[#FAFAFA]">{item}</a></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h5 className="mb-5 text-xs uppercase tracking-[0.25em] text-[#FAFAFA] font-medium">Connect</h5>
-              <ul className="flex flex-col gap-2.5">
-                {FOOTER.columns.connect.map((item) => (
-                  <li key={item.label}><a href={item.href} target="_blank" rel="noopener noreferrer" className="text-sm text-[#666666] transition-colors hover:text-[#FAFAFA]">{item.label}</a></li>
-                ))}
-              </ul>
-            </div>
-          </div>
+              {link.label}
+            </a>
+          ))}
         </div>
       </div>
 
-      {/* Copyright bar */}
-      <div className="footer-animate border-t border-[rgba(255,255,255,0.06)] px-6 py-6 md:px-12">
-        <div className="mx-auto max-w-6xl flex flex-col items-center justify-between gap-3 md:flex-row">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo/hilltop-logo.png" alt="Hilltop Media" className="h-auto w-[90px] opacity-40" />
-          <p className="text-xs text-[#555]">{FOOTER.copyright}</p>
-          <a href={`mailto:${FOOTER.email}`} className="text-xs text-[#666666] transition-colors hover:text-[#FAFAFA]">{FOOTER.email}</a>
+      {/* Hairline divider */}
+      <div style={{ height: '1px', backgroundColor: '#E0E0E0', margin: '0 40px' }} />
+
+      {/* Lower footer — stylized contact block */}
+      <div
+        className="footer-animate"
+        style={{ padding: '48px 40px 56px', maxWidth: '1280px', margin: '0 auto' }}
+      >
+        <div
+          className="font-heading font-bold leading-[1.1] select-none"
+          style={{ fontSize: 'clamp(28px, 4.5vw, 64px)', color: '#000000', letterSpacing: '-0.01em' }}
+        >
+          <span style={{ color: '#999999' }}>◇ </span>
+          Hilltop
+          <span style={{ color: '#E63329' }}>→</span>
+          {' '}
+          <span className="font-normal" style={{ fontSize: '0.55em', verticalAlign: 'middle', color: '#666666' }}>
+            49.2827°N
+          </span>
+          <span style={{ color: '#E63329' }}>✻</span>
+          {' '}Media
+          <span style={{ fontSize: '0.45em', verticalAlign: 'super', color: '#999999' }}>™</span>
+          <br />
+          Vancouver
+          <span style={{ color: '#E63329' }}>❋</span>
+          , Canada
+          <br />
+          <a
+            href="mailto:boris@thehilltopmedia.com"
+            className="transition-opacity hover:opacity-60"
+            style={{ fontSize: '0.55em', color: '#666666', fontStyle: 'normal', fontWeight: 400, letterSpacing: '-0.005em' }}
+          >
+            boris@thehilltopmedia.com
+          </a>
+          <span
+            className="float-right text-[13px] font-normal self-end"
+            style={{
+              color: '#999999',
+              fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+              fontWeight: 400,
+              fontSize: '11px',
+              letterSpacing: '0.02em',
+              paddingTop: '8px',
+            }}
+          >
+            ©2026
+          </span>
         </div>
       </div>
     </footer>

@@ -1,106 +1,139 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { NAV_LINKS, SOCIAL_LINKS } from '@/lib/constants';
+import { useEffect, useRef, useState } from 'react';
+
+const NAV_ITEMS = [
+  { label: 'Work', href: '#portfolio' },
+  { label: 'Services', href: '#services' },
+  { label: 'Agency', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+];
 
 export default function Navigation() {
-  const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const [pastHero, setPastHero] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      // Switch from transparent to white once past ~40vh
+      const threshold = window.innerHeight * 0.38;
+      setPastHero(window.scrollY > threshold);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <>
-      {/* Top bar: logo left, nav links center (desktop), hamburger right */}
-      <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 py-5 md:px-12 md:py-6">
-        {/* Logo */}
-        <a href="#" className="block">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo/hilltop-logo.png"
-            alt="Hilltop Media"
-            className="h-auto w-[110px] md:w-[130px]"
-          />
+      <header
+        ref={headerRef}
+        className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between transition-colors duration-300"
+        style={{
+          padding: '20px 40px',
+          backgroundColor: pastHero ? '#FFFFFF' : 'transparent',
+          borderBottom: pastHero ? '1px solid #E0E0E0' : 'none',
+        }}
+      >
+        {/* Logo — Playfair Display, small */}
+        <a
+          href="#"
+          className="font-heading text-[16px] font-semibold tracking-tight"
+          style={{ color: pastHero ? '#000000' : '#FFFFFF' }}
+        >
+          Hilltop Media
         </a>
 
-        {/* Desktop nav links */}
-        <nav className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-[11px] uppercase tracking-[0.2em] text-[#666666] transition-colors hover:text-[#FAFAFA]"
-            >
-              {link.label}
-            </a>
+        {/* Desktop center nav — comma-separated */}
+        <nav className="hidden md:flex items-center gap-0">
+          {NAV_ITEMS.map((item, i) => (
+            <span key={item.label} className="flex items-center">
+              <a
+                href={item.href}
+                className="text-[12px] font-medium transition-colors duration-200"
+                style={{
+                  color: pastHero ? '#000000' : 'rgba(255,255,255,0.75)',
+                  fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                  letterSpacing: '0.01em',
+                }}
+                onMouseEnter={(e) => ((e.target as HTMLAnchorElement).style.color = pastHero ? '#E63329' : '#FFFFFF')}
+                onMouseLeave={(e) => ((e.target as HTMLAnchorElement).style.color = pastHero ? '#000000' : 'rgba(255,255,255,0.75)')}
+              >
+                {item.label}
+              </a>
+              {i < NAV_ITEMS.length - 1 && (
+                <span
+                  className="mx-1 text-[12px] select-none"
+                  style={{ color: pastHero ? '#CCCCCC' : 'rgba(255,255,255,0.3)' }}
+                >
+                  ,
+                </span>
+              )}
+            </span>
           ))}
         </nav>
 
-        {/* Hamburger (mobile + desktop fallback) */}
+        {/* Right — Let's talk in red */}
+        <a
+          href="#contact"
+          className="hidden md:inline-block text-[12px] font-medium"
+          style={{
+            color: '#E63329',
+            fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+            letterSpacing: '0.01em',
+          }}
+        >
+          Let&apos;s talk
+        </a>
+
+        {/* Mobile hamburger */}
         <button
-          onClick={() => setOpen(!open)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[#0A0A0A]/80 backdrop-blur-sm transition-colors hover:border-[#E8E8E8] md:hidden"
+          className="flex md:hidden flex-col gap-[5px] p-2"
+          onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Menu"
         >
-          <div className="flex flex-col items-center gap-[5px]">
-            <motion.span
-              animate={open ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
-              className="block h-[1.5px] w-4 bg-[#FAFAFA]"
-            />
-            <motion.span
-              animate={open ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
-              className="block h-[1.5px] w-4 bg-[#FAFAFA]"
-            />
-          </div>
+          <span
+            className="block w-5 h-px transition-all duration-300"
+            style={{
+              backgroundColor: pastHero ? '#000000' : '#FFFFFF',
+              transform: mobileOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none',
+            }}
+          />
+          <span
+            className="block w-5 h-px transition-all duration-300"
+            style={{
+              backgroundColor: pastHero ? '#000000' : '#FFFFFF',
+              transform: mobileOpen ? 'rotate(-45deg) translate(3px, -3px)' : 'none',
+            }}
+          />
         </button>
       </header>
 
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-[#0A0A0A]/95 backdrop-blur-md"
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[90] bg-white flex flex-col justify-center px-10">
+          <nav className="flex flex-col gap-8">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="font-heading text-5xl font-bold text-black hover:text-[#E63329] transition-colors"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+          <a
+            href="#contact"
+            onClick={() => setMobileOpen(false)}
+            className="mt-12 text-sm font-medium"
+            style={{ color: '#E63329' }}
           >
-            <nav className="flex flex-col items-center gap-8">
-              {NAV_LINKS.map((link, i) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ delay: i * 0.08, duration: 0.4 }}
-                  className="font-heading text-4xl font-bold text-[#FAFAFA] transition-colors hover:text-[#E8E8E8] md:text-5xl"
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-            </nav>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mt-16 flex gap-8"
-            >
-              {SOCIAL_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm uppercase tracking-[0.2em] text-[#666666] transition-colors hover:text-[#FFFFFF]"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            Let&apos;s talk →
+          </a>
+        </div>
+      )}
     </>
   );
 }
